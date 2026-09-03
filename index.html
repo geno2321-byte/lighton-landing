@@ -1141,6 +1141,12 @@ src="https://www.facebook.com/tr?id=3961493720822898&ev=PageView&noscript=1" alt
           </div>
 
           <div class="field">
+            <label for="f-biz-name">상호 (사업장명) <i>*</i></label>
+            <input id="f-biz-name" name="biz_name" type="text" placeholder="예) 평촌 밝은미소 교정치과" required>
+            <small>이 이름으로 찾아보고 리포트를 씁니다.</small>
+          </div>
+
+          <div class="field">
             <label for="f-tel">연락처 <i>*</i></label>
             <input id="f-tel" name="tel" type="tel" inputmode="numeric" placeholder="010-0000-0000" required>
           </div>
@@ -1152,8 +1158,21 @@ src="https://www.facebook.com/tr?id=3961493720822898&ev=PageView&noscript=1" alt
           </div>
 
           <div class="field">
-            <label for="f-url">운영 중인 유튜브 채널 주소 (선택)</label>
-            <input id="f-url" name="url" type="url" placeholder="https://www.youtube.com/@...">
+            <label for="f-url">운영 중인 채널 (선택)</label>
+            <small>있는 것만 넣어주시고, 없으면 비워두셔도 됩니다.</small>
+            <input id="f-url" name="url" type="url" placeholder="유튜브 주소">
+          </div>
+
+          <div class="field">
+            <input id="f-blog" name="blog" type="url" placeholder="블로그 주소">
+          </div>
+
+          <div class="field">
+            <input id="f-insta" name="insta" type="url" placeholder="인스타그램 주소">
+          </div>
+
+          <div class="field">
+            <input id="f-place" name="place" type="url" placeholder="네이버 플레이스 주소">
           </div>
 
           <div class="nav">
@@ -1535,8 +1554,8 @@ src="https://www.facebook.com/tr?id=3961493720822898&ev=PageView&noscript=1" alt
   var ridIn = (location.search.match(/[?&]rid=([^&]+)/) || [])[1];
   if(ridIn){ rid = decodeURIComponent(ridIn); }
 
-  var APPLY_FIELDS = ['from','stage','name','tel','email','url','goal','goal_etc',
-                      'biz','area','etc','memo','agree'];
+  var APPLY_FIELDS = ['from','stage','name','biz_name','tel','email','url','blog','insta','place',
+                      'goal','goal_etc','biz','area','etc','memo','agree'];
   var QUIZ_FIELDS = ['q1','q2','q3','q4','q5','q6'];
 
   function collect(names, type){
