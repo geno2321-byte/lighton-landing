@@ -722,7 +722,7 @@ fieldset.field{border:0;padding:0;margin:0}
 .reviews .wrap>h2,.reviews .wrap>.note{text-align:center}
 .review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:44px}.review-card{display:flex;flex-direction:column;min-width:0;padding:28px;background:#fafbf4;color:#20251c;border:1px solid #d9dfcf;border-radius:22px;text-align:left}.review-mark{font-family:Georgia,serif;font-size:3.5rem;line-height:1;color:#718346;height:40px}.review-card h3{font-size:clamp(1.125rem,2.5vw,1.375rem);font-weight:750;line-height:1.5;letter-spacing:-.025em;color:#20251c;margin:14px 0 20px}.review-card blockquote{margin:0 0 28px;font-size:1rem;line-height:1.85;color:#4a5242}.review-source{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:auto;padding-top:18px;border-top:1px solid #d9dfcf;font-size:.8125rem;color:#657056}.review-source a{color:#344822;font-weight:700;text-underline-offset:4px;min-height:44px;display:inline-flex;align-items:center}.review-source a:focus-visible{outline:2px solid #435b22;outline-offset:4px}@media(max-width:767px){.review-grid{grid-template-columns:1fr;max-width:520px;margin:32px auto 0;gap:18px}.review-card{padding:24px}.review-card h3{font-size:1.375rem}}
 @media(max-width:767px){.paper-preview{margin-top:32px}.paper-sheet{padding:24px 20px}.paper-sheet p{font-size:.9375rem}}
-.channel-options{margin:22px 0}.channel-options summary{cursor:pointer;color:var(--mute);font-size:.9375rem;margin-bottom:18px}
+.channel-options{margin:22px 0}.channel-options-title{color:var(--mute);font-size:.9375rem;margin-bottom:18px}
 .report-link{color:var(--lime);text-underline-offset:3px;pointer-events:auto}
 .fstep small{display:block;color:var(--mute);font-size:.875rem;line-height:1.65;margin-top:10px}
 .outcome{padding:80px 0 36px;text-align:center}
@@ -1068,7 +1068,7 @@ src="https://www.facebook.com/tr?id=3961493720822898&ev=PageView&noscript=1" alt
             <small>리포트는 이 주소로만 보내드립니다.</small>
           </div>
 
-          <details class="channel-options"><summary>운영 중인 채널 주소 추가 (선택)</summary>
+          <div class="channel-options"><p class="channel-options-title">운영 중인 채널 주소 추가 (선택)</p>
           <div class="field">
             <label for="f-url">운영 중인 채널 (선택)</label>
             <small>있는 것만 넣어주시고, 없으면 비워두셔도 됩니다.</small>
@@ -1090,7 +1090,7 @@ src="https://www.facebook.com/tr?id=3961493720822898&ev=PageView&noscript=1" alt
             <input id="f-place" name="place" type="url" placeholder="네이버 플레이스 주소">
           </div>
 
-          </details>
+          </div>
           <div class="nav">
             <button class="btn-back" type="button" data-prev>이전</button>
             <button class="cta" type="button" data-next>다음</button>
