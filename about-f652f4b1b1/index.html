@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>회사 소개 | 플로우애즈</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<style>
+/* 상품소개 — 전달용 비공개 주소. 랜딩(flowads.co.kr)의 색·글꼴·모서리·곡선을 그대로 쓴다. */
+:root{
+  --bg:#0E0E0E; --bg2:#141414; --card:#161616; --line:#262626;
+  --fg:#FFFFFF; --mute:#9A9A9A; --lime:#A9FF00;
+  --r:24px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+@media(min-width:768px){.wrap{padding:0 40px}}
+
+.top{padding:22px 0;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;font-size:1.0625rem;letter-spacing:-.02em}
+.brand span{color:var(--lime)}
+
+/* 머리 */
+.head{min-height:72dvh;display:grid;place-items:center;text-align:center;padding:96px 0 72px;
+  background:radial-gradient(60% 50% at 50% 42%,rgba(169,255,0,.10),transparent 70%)}
+.head h1{font-size:clamp(3rem,13vw,6.5rem);font-weight:800;line-height:1.08;letter-spacing:-.045em}
+.head h1 em{font-style:normal;color:var(--lime)}
+.h1-sub{display:block;margin-top:.35em;font-size:.42em;font-weight:700;letter-spacing:-.02em;color:var(--fg)}
+.head p{margin-top:28px;color:var(--mute);font-size:clamp(1.0625rem,3.8vw,1.375rem);line-height:1.6}
+.head h1,.head p{animation:rise .8s var(--ease) both}.head p{animation-delay:.15s}
+@keyframes rise{from{opacity:0;transform:translateY(1.5rem)}to{opacity:1;transform:none}}
+
+/* 요금제 두 장 */
+.plans{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:768px){.plans{grid-template-columns:1fr 1fr;gap:18px}}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px 26px}
+.plan.pro{border-color:var(--lime)}
+.plan .name{font-size:1rem;font-weight:700;color:var(--mute)}
+.plan.pro .name{color:var(--lime)}
+.price{margin-top:10px}
+.price b{font-size:clamp(2rem,7vw,2.5rem);font-weight:800;letter-spacing:-.03em}
+.price b{display:block}
+.price small{display:block;margin-top:4px;color:var(--mute);font-size:.9375rem}
+.plan .diff{margin-top:18px;padding-top:18px;border-top:1px solid var(--line);
+  font-size:1.0625rem;font-weight:600;line-height:1.5}
+
+/* 진행 흐름 — 한 줄로 내려오다 촬영에서만 둘로 갈라졌다 다시 합쳐진다 */
+.compare{padding:72px 0 0}
+@media(min-width:768px){.compare{padding:96px 0 0}}
+.compare h2,.terms h2,.cases h2,.price-sec h2{text-align:center;font-size:clamp(1.875rem,7vw,2.75rem);font-weight:800;letter-spacing:-.035em;line-height:1.3}
+.flow{margin:28px auto 0;max-width:560px;--ln:#3A3A3A}
+.node{background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:18px 20px;text-align:center}
+.node .no{display:block;color:var(--lime);font-size:.875rem;font-weight:700;letter-spacing:.06em}
+.node b{display:block;margin-top:6px;font-size:1.25rem;font-weight:700;letter-spacing:-.01em;line-height:1.4}
+.node small{display:block;margin-top:6px;color:#C4C4C4;font-size:1rem;line-height:1.5}
+.link{width:2px;height:26px;margin:0 auto;background:var(--ln)}
+.fork,.merge{position:relative;height:30px}
+.fork::before,.merge::after{content:'';position:absolute;left:calc(50% - 1px);width:2px;height:15px;background:var(--ln)}
+.fork::before{top:0}.merge::after{bottom:0}
+.fork::after,.merge::before{content:'';position:absolute;left:25%;right:25%;height:2px;background:var(--ln)}
+.fork::after{top:14px}.merge::before{bottom:14px}
+.fork i,.merge i{position:absolute;width:2px;height:16px;background:var(--ln)}
+.fork i{bottom:0}.merge i{top:0}
+.fork i:first-child,.merge i:first-child{left:calc(25% - 1px)}
+.fork i:last-child,.merge i:last-child{left:calc(75% - 1px)}
+.split{display:grid;grid-template-columns:1fr 1fr}
+.split .node{margin:0 6px;padding:16px 12px}
+.split .tag{display:block;font-size:.8125rem;font-weight:700;color:var(--mute)}
+.split .pro .tag{color:var(--lime)}
+.split .pro{border-color:var(--lime)}
+.flow-note{margin-top:14px;text-align:center;color:var(--mute);font-size:.875rem}
+
+
+/* 사례 — 랜딩의 밝은 사례 카드와 같은 색 */
+.cases,.price-sec{padding:72px 0 0}
+@media(min-width:768px){.cases,.price-sec{padding:96px 0 0}}
+
+.price-sec .plans{margin-top:24px}
+.sub{margin-top:10px;color:var(--mute);font-size:.9375rem;line-height:1.6}
+.cgrid{margin-top:24px;display:grid;grid-template-columns:1fr;gap:14px;align-items:start}
+@media(min-width:768px){.cgrid{grid-template-columns:1fr 1fr;gap:18px}}
+.ccard,.gcard{background:#f4f6ed;color:#20291a;border-radius:var(--r);padding:26px 24px;display:flex;flex-direction:column;margin:0}
+.dept{align-self:flex-start;display:inline-block;padding:5px 11px;border-radius:999px;background:#20291a;color:var(--lime);font-size:.75rem;font-weight:700}
+.ccard h3{margin-top:14px;font-size:clamp(1.25rem,4.4vw,1.5rem);line-height:1.45;letter-spacing:-.02em}
+.ccard h3 b{color:#42690a}
+.metric{margin-top:18px}
+.metric small{display:block;font-size:.875rem;color:#5b694e}
+.metric strong{display:block;margin-top:4px;font-size:clamp(2.25rem,8vw,2.75rem);font-weight:800;letter-spacing:-.04em;color:#42690a;line-height:1.2}
+.ccard blockquote{margin-top:18px;padding-left:14px;border-left:3px solid #83a348;font-size:1rem;line-height:1.7}
+.ccard img{margin-top:20px;display:block;width:100%;max-width:300px;align-self:center;height:auto;border-radius:10px}
+.gtitle{margin-top:56px;font-size:clamp(1.125rem,4vw,1.375rem);font-weight:700;letter-spacing:-.02em}
+.ggrid{margin-top:20px;display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:768px){.ggrid{grid-template-columns:1fr 1fr;gap:18px}}
+.gcard{padding:18px}
+.gcard img{margin-top:12px;display:block;width:100%;height:auto;border-radius:12px}
+.pick{outline:2px solid var(--lime);outline-offset:3px}
+
+
+/* 조회수 문답 · 대표 사례 */
+.qa{margin-top:40px;text-align:center}
+.qa .q{font-size:clamp(1.25rem,4.6vw,1.625rem);font-weight:700;line-height:1.45;color:#B0B0B0;letter-spacing:-.02em}
+.qa .a{margin-top:12px;font-size:clamp(1.5rem,5.6vw,2rem);font-weight:800;color:var(--lime);letter-spacing:-.03em}
+.vgrid{margin-top:24px;display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:768px){.vgrid{grid-template-columns:1fr 1fr;gap:18px}}
+.vcard{margin:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px}
+.vcard img{display:block;width:100%;height:auto;border-radius:10px}
+.vcard figcaption{margin-top:10px;text-align:center;color:var(--mute);font-size:.8125rem}
+.bridge{margin:40px 0 0;text-align:center;font-size:clamp(1.25rem,4.6vw,1.625rem);font-weight:700;line-height:1.5;letter-spacing:-.02em}
+.bridge b{color:var(--lime)}
+.story{margin-top:32px;background:#f4f6ed;color:#20291a;border-radius:var(--r);padding:28px 22px;display:flex;flex-direction:column}
+@media(min-width:768px){.story{padding:40px}}
+.story h3{margin-top:14px;font-size:clamp(1.375rem,5vw,1.875rem);line-height:1.4;letter-spacing:-.025em}
+.story h3 b{color:#42690a}
+.steps{margin-top:22px;display:grid;gap:12px}
+@media(min-width:768px){.steps{grid-template-columns:1fr 1fr}}
+.steps div{background:#e6edda;border-radius:16px;padding:16px 18px}
+.steps dt{font-size:.8125rem;font-weight:700;color:#4d662e}
+.steps dd{margin-top:6px;font-size:.9375rem;line-height:1.6}
+.slabel{margin-top:28px;font-size:.875rem;font-weight:600;color:#4d662e;line-height:1.5}
+.sgrid{margin-top:12px;display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:768px){.sgrid{grid-template-columns:repeat(3,1fr)}}
+.sgrid figure{margin:0}
+.sgrid img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid #cfd8c0}
+.sgrid figcaption{margin-top:6px;font-size:.8125rem;font-weight:600;color:#20291a;text-align:center}
+.result{margin-top:28px;padding-top:24px;border-top:1px solid #cfd8c0;display:flex;flex-direction:column}
+.result .metric{margin-top:0}
+.result blockquote{margin-top:16px;padding-left:14px;border-left:3px solid #83a348;font-size:1rem;line-height:1.7}
+.result img{margin-top:20px;display:block;width:100%;max-width:300px;align-self:center;height:auto;border-radius:10px}
+
+
+/* 아젠다 */
+.cases{padding-top:120px}
+@media(min-width:768px){.cases{padding-top:160px}}
+.agenda-h{font-size:clamp(2.375rem,10vw,4.25rem)!important;line-height:1.2!important;letter-spacing:-.045em!important}
+.agenda-h span{color:var(--mute)}
+.agenda-h em{font-style:normal;color:var(--lime)}
+
+.news{display:block;margin:36px auto 0;max-width:600px;background:#f4f6ed;color:#141414;border-radius:var(--r);padding:28px 24px 22px;text-decoration:none;transition:transform .5s var(--ease)}
+.news:hover{transform:scale(1.01)}
+.news-src{display:inline-block;padding:4px 10px;border-radius:6px;background:#141414;color:#f4f6ed;font-size:.75rem;font-weight:700}
+.news-h{margin-top:16px;font-size:clamp(1.625rem,6.6vw,2.375rem);font-weight:800;line-height:1.3;letter-spacing:-.035em}
+.news-s{margin-top:8px;font-size:clamp(1.0625rem,4vw,1.25rem);font-weight:700;color:#5b5b5b}
+.news-row{margin-top:22px;padding-top:18px;border-top:1px solid #d6dccb;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.news-row small{display:block;font-size:.8125rem;color:#5b694e}
+.news-row strong{display:block;margin-top:4px;font-size:clamp(1.375rem,5.4vw,1.75rem);font-weight:800;letter-spacing:-.03em;color:#C9563E}
+.news-more{display:block;margin-top:14px;font-size:.75rem;color:#6F6F6F}
+
+.buy{margin:36px auto 0;max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px 22px;text-align:center}
+.buy-k{color:var(--mute);font-size:.9375rem;font-weight:600}
+.buy-row{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.buy-row div{background:var(--bg2);border-radius:16px;padding:16px 8px}
+.buy-row small{display:block;color:var(--mute);font-size:.875rem}
+.buy-row strong{display:block;margin-top:6px;font-size:clamp(1.5rem,6vw,2rem);font-weight:800;letter-spacing:-.03em}
+.src{margin-top:14px;font-size:.75rem;color:#6F6F6F}.src a{color:#8A8A8A}
+.claim{margin-top:40px;text-align:center;font-size:clamp(1.25rem,4.8vw,1.75rem);font-weight:700;line-height:1.5;letter-spacing:-.025em;color:#C8C8C8}
+.claim b{color:var(--fg);font-weight:800}
+.say{margin-top:72px;text-align:center;font-size:clamp(1.1875rem,4.4vw,1.5rem);font-weight:700;line-height:1.55;letter-spacing:-.02em;color:#C8C8C8}
+.say b{color:var(--lime)}
+.vstack{margin:24px auto 0;max-width:720px;display:grid;gap:16px}
+.vcard{margin:0;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px}
+.vcard img{display:block;width:100%;height:auto;border-radius:10px}
+.vcard figcaption{margin-top:10px;text-align:center;color:var(--mute);font-size:.8125rem}
+.slot{margin:24px auto 0;max-width:720px;border:2px dashed #3A3A3A;border-radius:20px;padding:48px 16px;text-align:center;color:var(--mute);font-weight:600;line-height:1.6}
+.slot small{font-weight:400;font-size:.8125rem}
+.versus{margin:72px auto 0;max-width:720px;display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:768px){.versus{grid-template-columns:1fr 1fr}}
+.vs-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px 22px;text-align:center}
+.vs-card small{color:var(--mute);font-size:.875rem;font-weight:700}
+.vs-card p{margin-top:10px;font-size:1.125rem;font-weight:700;line-height:1.55}
+.vs-card.on{border-color:var(--lime)}.vs-card.on small{color:var(--lime)}
+.assert{margin-top:88px;text-align:center}
+.as-k{color:var(--mute);font-size:1rem;font-weight:700}
+.as-big{margin-top:10px;font-size:clamp(2.25rem,9vw,4rem);font-weight:800;letter-spacing:-.045em;line-height:1.15;color:var(--lime)}
+.as-sub{margin-top:14px;font-size:clamp(1.0625rem,4vw,1.375rem);font-weight:700;line-height:1.5;color:#C8C8C8}
+.channel{margin-top:16px;text-align:center}
+.ch-link{margin:20px auto 0;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:999px;border:1px solid var(--lime);color:var(--lime);text-decoration:none;font-weight:700;transition:transform .5s var(--ease)}
+.ch-link:hover{transform:scale(1.02)}
+.case-h{margin-top:104px}
+.nda{margin-top:10px;text-align:center;color:#6F6F6F;font-size:.8125rem;line-height:1.6}
+.talk{margin-top:28px;padding-top:24px;border-top:1px solid #cfd8c0;display:grid;grid-template-columns:1fr;gap:20px;align-items:center}
+@media(min-width:768px){.talk{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px}}
+.talk img{display:block;width:100%;max-width:320px;margin:0 auto;height:auto;border-radius:10px}
+.talk small{display:block;font-size:.8125rem;font-weight:700;color:#4d662e}
+.talk-big{margin-top:10px;font-size:clamp(1.5rem,5.6vw,2.125rem);font-weight:800;line-height:1.35;letter-spacing:-.03em}
+.talk-big b{color:#42690a}
+.gtitle.center{text-align:center;font-size:clamp(1.375rem,5vw,1.875rem);font-weight:800;margin-top:88px}
+.gname{margin-top:12px;text-align:center;font-weight:700;font-size:1rem}
+
+.vnum{text-align:center;display:flex;justify-content:center;align-items:baseline;gap:2px;padding:8px 0 14px;font-size:clamp(1.125rem,4.4vw,1.375rem);font-weight:700;color:#C8C8C8}
+.vnum b{font-size:clamp(2rem,8vw,3rem);font-weight:800;letter-spacing:-.04em;color:var(--lime);margin-right:2px}
+.versus{margin:88px auto 0;max-width:720px;display:block}
+.vs-q{text-align:center;font-size:clamp(1.25rem,4.8vw,1.75rem);font-weight:700;line-height:1.45;color:#C8C8C8}
+.vs-q b{color:var(--fg);font-weight:800}
+.vs-row{margin-top:24px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px}
+@media(min-width:768px){.vs-row{gap:20px}}
+.versus .vs-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 10px;text-align:center}
+.versus .vs-card small{display:block;font-size:.8125rem;font-weight:700;color:var(--mute)}
+.versus .vs-card p{margin-top:10px;font-size:clamp(1.25rem,5vw,1.75rem);font-weight:800;line-height:1.3;color:#8A8A8A}
+.vs-res{display:inline-block;margin-top:14px;padding:6px 14px;border-radius:999px;background:#262626;color:#8A8A8A;font-weight:800;font-size:.9375rem}
+.versus .vs-card.on{border:2px solid var(--lime);background:#141a0a}
+.versus .vs-card.on small{color:var(--lime)}
+.versus .vs-card.on p{color:var(--fg)}
+.versus .vs-card.on .vs-res{background:var(--lime);color:#0E0E0E}
+.vs-mark{font-size:clamp(1.125rem,4.4vw,1.5rem);font-weight:900;font-style:italic;color:var(--lime);letter-spacing:-.02em}
+.ch-card{margin:28px auto 0;max-width:568px;background:#fff;border-radius:20px;padding:14px}
+.ch-card img{display:block;width:100%;height:auto}
+.mails{position:relative;overflow:hidden;padding:4px 2px 0;margin:20px auto 0;max-width:568px;display:grid;gap:8px;justify-items:start;
+  -webkit-mask-image:linear-gradient(#000 35%,transparent 100%);mask-image:linear-gradient(#000 35%,transparent 100%)}
+.mails img{display:block;max-width:calc(96% - var(--i) * 4%);height:auto;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.35);
+  margin-left:calc(var(--i) * 4%);transform:rotate(calc((var(--i) - 2) * .4deg))}
+
+.sdemo{margin:24px auto 0;max-width:600px;background:#fff;color:#0f0f0f;border-radius:20px;padding:16px 16px 12px;overflow:hidden}
+.sd-stage{position:relative;min-height:360px;padding:0 7%}
+@media(min-width:768px){.sd-stage{min-height:440px}}
+.sd-bar{display:flex;align-items:center;gap:8px;transform-origin:50% 0;transition:transform .6s var(--ease)}
+.sdemo.typing .sd-bar{transform:translateY(120px) scale(1.12)}
+@media(min-width:768px){.sdemo.typing .sd-bar{transform:translateY(160px) scale(1.15)}}
+.sd-logo{flex:none;font-weight:800;font-size:.9375rem;letter-spacing:-.02em}
+.sd-logo::before{content:'';display:inline-block;width:22px;height:15px;margin-right:5px;vertical-align:-2px;border-radius:4px;background:#ff0033}
+.sd-q{flex:1;min-width:0;display:flex;align-items:center;height:40px;padding:0 14px;border:1.5px solid #d3d3d3;border-radius:999px 0 0 999px;font-size:.9375rem;white-space:nowrap;overflow:hidden}
+.sdemo.typing .sd-q{border-color:#1c62b9}
+.sd-caret{display:inline-block;width:1.5px;height:1.1em;margin-left:2px;background:#0f0f0f;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.sd-btn{flex:none;display:grid;place-items:center;width:52px;height:40px;margin-left:-8px;border:1.5px solid #d3d3d3;border-left:0;border-radius:0 999px 999px 0;background:#f8f8f8;color:#0f0f0f;transition:transform .2s var(--ease),background .2s}
+.sdemo.press .sd-btn{transform:scale(.88);background:#e5e5e5}
+@media(max-width:767px){.sd-logo{font-size:0}.sd-logo::before{margin-right:0}.sd-q{font-size:.8125rem;padding:0 10px}.sd-btn{width:44px}}
+.sd-list{margin-top:6px}
+.sd-row{margin-top:12px;display:grid;grid-template-columns:42% 1fr;gap:12px;align-items:start;padding:8px;border-radius:14px;
+  opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--k) * 140ms)}
+.sdemo.done .sd-row{opacity:.4;transform:none}
+.sdemo.done .sd-row.on{opacity:1;outline:3px solid var(--lime);background:#f7ffe6}
+.sd-th{display:grid;place-items:center;aspect-ratio:16/9;border-radius:10px;border:2px dashed #c9c9c9;color:#9a9a9a;font-size:.75rem;font-weight:700}
+.sd-tx b{display:block;font-size:.875rem;line-height:1.4;color:#9a9a9a;font-weight:700}
+.sd-row.on .sd-tx b{color:#0f0f0f}
+.sd-tx em{display:inline-block;margin-top:8px;font-style:normal;font-size:.75rem;font-weight:700}
+.sd-row.on .sd-tx em{padding:3px 8px;border-radius:999px;background:#0f0f0f;color:var(--lime)}
+.sd-row.on{display:block;position:relative;padding:6px}
+.sd-row.on img{display:block;width:100%;height:auto;border-radius:10px}
+.sd-row:not(.on) .sd-tx b{height:12px;margin-bottom:8px;border-radius:6px;background:#e5e5e5}
+.sd-row:not(.on) .sd-tx b+b{width:60%}
+.sdemo figcaption{margin-top:6px;text-align:right;font-size:.6875rem;color:#8a8a8a}
+
+.claim{margin-top:56px;text-align:center}
+.claim p{font-size:clamp(1.25rem,4.8vw,1.75rem);font-weight:700;line-height:1.5;letter-spacing:-.025em;color:#C8C8C8}
+.claim .cv-k{margin-top:28px;color:var(--fg)}
+.claim .cv{margin-top:6px;font-size:clamp(1.5rem,5.6vw,2.25rem);color:var(--fg);font-weight:800}
+.claim .cv b{display:inline-block;padding:0 .18em;font-size:1.8em;line-height:1.1;color:#0E0E0E;background:var(--lime);border-radius:10px;letter-spacing:-.04em;margin-right:.1em}
+.dots{margin:48px auto 0;display:flex;flex-direction:column;align-items:center;gap:10px}
+.dots i{width:6px;height:6px;border-radius:50%;background:#5A5A5A}
+.say.first{margin-top:48px}
+.vs-res{display:inline-flex;flex-direction:column;align-items:center;gap:2px;line-height:1.2}
+.vs-res i{font-style:normal;font-size:.6875rem;font-weight:700;opacity:.8}
+
+/* 계약 조건 */
+.terms{padding:72px 0 0}
+@media(min-width:768px){.terms{padding:96px 0 0}}
+.tlist{margin-top:20px;list-style:none;display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:768px){.tlist{grid-template-columns:1fr 1fr}}
+.tlist li{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px}
+.tlist b{display:block;font-size:.9375rem;color:#C4C4C4;font-weight:700}
+.tlist span{display:block;margin-top:8px;font-size:1.125rem;font-weight:500;line-height:1.65;color:#E6E6E6}
+.tlist li:first-child{grid-column:1/-1}
+
+/* 문의 */
+.ask{padding:88px 0 96px;text-align:center}
+.ask p{color:var(--mute);font-size:1rem;line-height:1.6}
+.cta{margin:22px auto 0;display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;max-width:420px;min-height:56px;text-decoration:none;
+  background:var(--lime);color:#0E0E0E;border-radius:var(--r);
+  font-size:1.0625rem;font-weight:700;letter-spacing:-.01em;transition:transform .5s var(--ease)}
+.cta:hover{transform:scale(1.02)}
+.cta:active{transform:scale(.98)}
+
+.foot{border-top:1px solid var(--line);padding:28px 0 40px;color:#6F6F6F;font-size:.8125rem;line-height:1.7}
+
+[data-reveal]{opacity:0;transform:translateY(2rem);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+[data-reveal].in{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){[data-reveal]{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<div class="top"><div class="wrap"><div class="brand">FLOWADS<span>.</span></div></div></div>
+
+<main>
+<section class="head"><div class="wrap">
+  <h1>병원 유튜브<br><em>운영 대행</em><span class="h1-sub">서비스 안내.</span></h1>
+</div></section>
+
+<section class="cases"><div class="wrap">
+  <h2 class="agenda-h" data-reveal><span>유튜브,</span><br><em>조회수가 전부</em>라고<br>생각하셨나요?</h2>
+
+  <!-- 09판 압축(기사 카드) — 되돌리려면 주석 해제
+<a class="news" href="https://www.hankyung.com/amp/2019080172711" target="_blank" rel="noopener" data-reveal>
+    <span class="news-src">한국경제 · 2019년 8월</span>
+    <p class="news-h">“100만원 내면<br>구독자 1만명 만들어 드려요”</p>
+    <p class="news-s">…유튜브 조작 &lsquo;활개&rsquo;</p>
+</a>
+-->
+  <div class="claim" data-reveal>
+    <p>비즈니스를 위한 유튜브에서<br>구독자, 조회수는 중요하지 않습니다.</p>
+    <p class="cv-k">중요한 것은 오직</p>
+    <p class="cv"><b>문의 수</b>입니다.</p><!-- 08판: 전환율 뿐입니다 -->
+  </div>
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <p class="say first" data-reveal>저도 한때는<br>높은 조회수를 자랑하던 시절이 있었습니다.</p>
+  <div class="vstack">
+    <figure class="vcard" data-reveal><img src="a/views1_line.png" alt="게시 후 조회수 1,460,308회를 기록한 영상의 유튜브 스튜디오 화면" loading="lazy" decoding="async"></figure>
+    <figure class="vcard" data-reveal><img src="a/views2_line.png" alt="게시 후 조회수 981,783회를 기록한 영상의 유튜브 스튜디오 화면" loading="lazy" decoding="async"></figure>
+  </div>
+  <p class="say" data-reveal>하지만 지금은 철저히<br><b>소비자 심리를 기반으로 한<br>검색 노출형 콘텐츠</b>를 기획합니다.</p>
+  <figure class="sdemo" data-reveal aria-label="실제 검색 화면: 유튜브에서 증상을 검색하면 병원 영상이 맨 위에 보입니다.">
+    <div class="sd-stage">
+      <div class="sd-bar"><span class="sd-logo">YouTube</span><span class="sd-q"><span id="sdq"></span><i class="sd-caret"></i></span><span class="sd-btn" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span></div>
+      <div class="sd-list">
+        <div class="sd-row on" style="--k:0"><img id="sdimg" src="a/sdemo1.png" alt="유튜브 검색 결과 맨 위에 보이는 병원 영상. 얼굴과 채널명은 가렸습니다." decoding="async"></div>
+        <div class="sd-row" style="--k:1" aria-hidden="true"><span class="sd-th"></span><span class="sd-tx"><b></b><b></b></span></div>
+        <div class="sd-row" style="--k:2" aria-hidden="true"><span class="sd-th"></span><span class="sd-tx"><b></b><b></b></span></div>
+      </div>
+    </div>
+    <figcaption>실제 검색 화면 · 얼굴과 채널명은 가렸습니다</figcaption>
+  </figure>
+
+  <div class="versus" data-reveal>
+    <p class="vs-q">똑같이 영상을 봐도,<br><b>병원까지 오는 사람은 다릅니다.</b></p>
+    <div class="vs-row">
+      <div class="vs-card"><small>알고리즘 추천</small><p>우연히<br>본 사람</p><span class="vs-res"><i>병원에 올 가능성</i>낮음</span></div>
+      <span class="vs-mark">VS</span>
+      <div class="vs-card on"><small>직접 검색</small><p>증상을 검색해<br>찾아본 사람</p><span class="vs-res"><i>병원에 올 가능성</i>높음</span></div>
+    </div>
+  </div>
+
+  <!-- 09판 압축(단언합니다) — 되돌리려면 주석 해제
+<div class="assert" data-reveal>
+    <p class="as-k">단언합니다.</p>
+    <p class="as-big">조회수를<br>쫓지 마세요.</p>
+    <p class="as-sub">조회수 대신,<br>문의 수로 증명하겠습니다.</p>
+  </div>
+
+-->
+  <p class="say" data-reveal>검색으로 찾아온 환자는<br>원장님 설명을 먼저 듣고 옵니다.<br><b>진료실에 오기 전에 이미<br>원장님을 알고 옵니다.</b></p><!-- 09판 추가: 브랜딩 한 줄 -->
+
+  <div class="channel" data-reveal>
+    <p class="say">저는 이 채널 하나로 지금도<br><b>매달 10건 이상의 문의</b>를<br>받고 있습니다.</p>
+    <figure class="ch-card"><img src="a/channel.png" alt="라이트온 유튜브 채널 정보. 구독자 2.29천 명, 동영상 22개." loading="lazy" decoding="async"></figure>
+    <div class="mails" aria-label="최근 받은 문의 메일 제목들. 개인 이름은 가려져 있습니다.">
+      <img src="a/mail2.png" alt="" style="--i:0">
+      <img src="a/mail3.png" alt="" style="--i:1">
+      <img src="a/mail1_v2.png" alt="" style="--i:2">
+      <img src="a/mail4.png" alt="" style="--i:3">
+      <img src="a/mail5.png" alt="" style="--i:4">
+    </div>
+  </div>
+
+  <h2 class="case-h" data-reveal>고객 사례</h2>
+  <p class="nda" data-reveal>계약상 비밀유지 의무가 있어<br>병원 정보는 공개할 수 없는 점 양해 부탁드립니다.</p>
+
+  <article class="story" data-reveal>
+    <span class="dept">피부과</span>
+    <dl class="steps">
+      <div><dt>시작 전</dt><dd>유튜브를 운영하고 계셨지만<br>만족스러운 성과가 없어 고민하시던 중,<br>소개로 함께하게 된 원장님입니다.</dd></div>
+      <div><dt>시작 후</dt><dd>환자가 실제로 검색하는 말을 찾아,<br>그 검색 결과에 영상이 보이도록<br>기획했습니다.</dd></div>
+    </dl>
+    <p class="slabel">「팔자주름」 관련 검색 결과<br>라임색 테두리가 저희가 만든 영상입니다</p>
+    <div class="sgrid">
+      <figure><img src="a/search1.png" alt="「팔자주름 시술」 유튜브 검색 결과. 저희가 만든 영상이 위쪽에 보입니다. 다른 영상과 병원 정보는 가려져 있습니다." loading="lazy" decoding="async"><figcaption>「팔자주름 시술」</figcaption></figure>
+      <figure><img src="a/search2.png" alt="「팔자주름 울쎄라」 유튜브 검색 결과. 저희가 만든 영상이 위쪽에 보입니다. 다른 영상과 병원 정보는 가려져 있습니다." loading="lazy" decoding="async"><figcaption>「팔자주름 울쎄라」</figcaption></figure>
+      <figure><img src="a/search3.png" alt="「팔자주름 없애는법」 유튜브 검색 결과. 저희가 만든 영상이 위쪽에 보입니다. 다른 영상과 병원 정보는 가려져 있습니다." loading="lazy" decoding="async"><figcaption>「팔자주름 없애는법」</figcaption></figure>
+    </div>
+    <div class="talk">
+      <img src="a/youtube-visit.png" alt="유튜브를 보고 방문한 신환이 300만 원 패키지를 결제했다고 전한 원장님의 메시지. 개인 정보는 가려져 있습니다." loading="lazy" decoding="async">
+      <div><small>원장님과 나눈 실제 대화</small><p class="talk-big">유튜브 보고 온 분이<br>방금 <b>300만 원</b> 결제하고<br>가셨어요.</p></div>
+    </div>
+  </article>
+
+  <h3 class="gtitle" data-reveal>다른 병원의 이야기</h3>
+
+  <div class="cgrid" data-sort style="margin-top:20px">
+    <article class="ccard" data-dept="마취통증의학과" data-reveal>
+      <span class="dept">마취통증의학과</span>
+      <h3>신환이 이전 대비<br><b>2배 이상 늘었습니다.</b></h3>
+      <p class="metric"><small>당월 신환</small><strong>64명</strong></p>
+      <blockquote>“대표님 덕분에<br>요즘 너무 바빠요”</blockquote>
+      <img src="a/patient-growth.png" alt="신환이 이전보다 두 배 넘게 늘고 이달 신환이 64명이었다는 원장님의 메시지. 개인 정보는 가려져 있습니다." loading="lazy" decoding="async">
+    </article>
+    <article class="ccard" data-dept="정형외과" data-reveal>
+      <span class="dept">정형외과</span>
+      <h3>200평 넘는 공간으로<br><b>병원 확장을 준비합니다.</b></h3>
+      <blockquote>“200평 조금 넘습니다”<br>“저희 책임지셔야 해요!”</blockquote>
+      <img src="a/clinic-expansion.png" alt="200평이 조금 넘는 공간으로 병원 확장을 준비한다는 메시지. 개인 정보는 가려져 있습니다." loading="lazy" decoding="async">
+    </article>
+    <article class="ccard" data-dept="치과" data-reveal>
+      <span class="dept">치과</span>
+      <h3>봉직의 채용 공고를<br><b>냈습니다.</b></h3>
+      <blockquote>“저희 이번에 봉직의 공고냈습니다<br>모두 대표님 덕분입니다”</blockquote>
+      <img src="a/dentist-hiring.png" alt="봉직의 채용 공고를 냈고 대표 덕분이라고 전한 원장님의 메시지. 개인 정보는 가려져 있습니다." loading="lazy" decoding="async">
+    </article>
+  </div>
+
+  <h3 class="gtitle center" data-reveal>플로우애즈를 만나고 난 후 변화</h3>
+  <div class="ggrid" data-sort>
+    <figure class="gcard" data-dept="치과" data-reveal><span class="dept">치과</span><p class="gname">교정 전문 치과</p><img src="a/graph1_notitle.png" alt="강남 치과(교정) 그래프. 유튜브 시작 시점 이후 선이 올라갑니다." loading="lazy" decoding="async"></figure>
+    <figure class="gcard" data-dept="치과" data-reveal><span class="dept">치과</span><p class="gname">1인 치과</p><img src="a/graph2_notitle.png" alt="수원 치과 그래프. 유튜브 시작 시점 이후 선이 올라갑니다." loading="lazy" decoding="async"></figure>
+    <figure class="gcard" data-dept="피부과" data-reveal><span class="dept">피부과</span><p class="gname">피부과</p><img src="a/graph4_notitle.png" alt="잠실 피부과(흉터 치료) 그래프. 유튜브 시작 시점 이후 선이 올라갑니다." loading="lazy" decoding="async"></figure>
+    <figure class="gcard" data-dept="피부과 미용" data-reveal><span class="dept">미용의원</span><p class="gname">미용의원</p><img src="a/graph3_notitle.png" alt="압구정 미용의원(필러) 그래프. 유튜브 시작 시점 이후 선이 올라갑니다." loading="lazy" decoding="async"></figure>
+  </div>
+</div></section>
+
+<section class="price-sec"><div class="wrap">
+  <h2 data-reveal>비용 안내</h2>
+  <div class="plans">
+    <article class="plan" data-reveal>
+      <p class="name">베이직</p>
+      <p class="price"><b>월 320만 원</b><small>부가세 별도</small></p>
+      <p class="diff">촬영한 영상만 보내주세요.<br>나머지는 모두 저희가 맡습니다.</p>
+    </article>
+    <article class="plan pro" data-reveal>
+      <p class="name">프리미엄</p>
+      <p class="price"><b>월 400만 원</b><small>부가세 별도</small></p>
+      <p class="diff">전문 감독 촬영부터<br>모두 맡는 올인원 패키지입니다.</p>
+    </article>
+  </div>
+</div></section>
+
+<section class="compare"><div class="wrap">
+  <h2 data-reveal>진행 방식</h2>
+  <div class="flow" data-reveal>
+    <div class="node"><span class="no">01</span><b>검색어·경쟁 영상 분석</b><small>환자가 실제로 검색하는 말을 찾습니다.</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">02</span><b>영상 주제·원고 기획</b><small>의료광고 기준으로 점검하고<br>원장님 확인을 받습니다.</small></div>
+    <div class="fork"><i></i><i></i></div>
+    <div class="split">
+      <div class="node"><span class="tag">베이직</span><b>원장님 직접 촬영</b><small>영상만 보내주세요.</small></div>
+      <div class="node pro"><span class="tag">프리미엄</span><b>전문 감독 촬영</b><small>저희가 촬영합니다.</small></div>
+    </div>
+    <div class="merge"><i></i><i></i></div>
+    <div class="node"><span class="no">03</span><b>편집·제목·썸네일</b><small>롱폼 월 4편 · 쇼츠 월 10편</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">04</span><b>업로드·채널 관리</b><small>설명란과 고정 댓글에<br>문의 경로를 연결합니다.</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">05</span><b>월간 리포트</b><small>시청 반응을 보고 다음 달 기획에 반영합니다.</small></div>
+  </div>
+  <p class="flow-note" data-reveal>촬영은 월 1회, 한 번에 한 달 분량을 찍습니다.</p>
+</div></section>
+
+<section class="terms"><div class="wrap">
+  <h2 data-reveal>계약 조건</h2>
+  <ul class="tlist">
+    <li data-reveal><b>계약 기간</b><span>첫 계약은 3개월입니다.<br>검색으로 찾아오는 영상은<br>시간이 지나며 조회수가 쌓입니다.<br>12편이 쌓이는 3개월이 지나야<br>방향을 판단할 수 있습니다.<br>이후에는 월 단위로 연장합니다.</span></li>
+
+    <li data-reveal><b>결제 및 환불</b><span>매달 작업을 시작하기 전에 결제합니다.<br>매달 첫 촬영 전에는 전액 환불해 드립니다.</span></li>
+    <li data-reveal><b>소유권</b><span>채널과 제작된 영상은<br>모두 병원 소유입니다.</span></li>
+  </ul>
+</div></section>
+
+<section class="ask"><div class="wrap">
+  <p>궁금하신 점은 편하게 연락 주세요.</p>
+  <a class="cta" href="tel:010-9439-6578">상담 문의 010-9439-6578</a>
+</div></section>
+</main>
+
+<footer class="foot"><div class="wrap">
+  플로우애즈 · 이민재 · 211-11-20640<br>
+  경기도 하남시 미사강변서로 22, 9층 906호(풍산동, 에코큐브 지식산업센터)<br>
+  ⓒ 2026. All rights reserved.
+</div></footer>
+
+<script>
+/* 주소 끝에 ?과=피부과 를 붙이면 그 과 사례가 맨 앞으로 온다 */
+const want = new URLSearchParams(location.search).get('과');
+if (want) document.querySelectorAll('[data-sort]').forEach(g => {
+  [...g.children].filter(c => c.dataset.dept.split(' ').includes(want))
+    .reverse().forEach(c => { c.classList.add('pick'); g.prepend(c); });
+});
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .12 });
+document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+
+/* 검색 예시: 검색창이 커진 채로 한 글자씩 입력 → 검색 버튼 누름 → 결과가 차례로 뜬다. 화면에 보일 때만 돈다 */
+const demo = document.querySelector('.sdemo'), sdq = document.getElementById('sdq');
+if (demo && sdq) {
+  const qs = ['임플란트 뼈이식', '울쎄라 붓기', '땅콩얼굴 시술', '어깨 통증 주사'], sdimg = document.getElementById('sdimg');
+  qs.forEach((_, i) => { new Image().src = `a/sdemo${i + 1}.png`; });
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  let n = 0, running = false, visible = false;
+  async function play() {
+    running = true;
+    while (visible) {
+      demo.classList.remove('done', 'press'); demo.classList.add('typing'); sdq.textContent = ''; sdimg.src = `a/sdemo${n + 1}.png`;
+      await wait(700);
+      for (const ch of qs[n]) { sdq.textContent += ch; await wait(110); }
+      await wait(400); demo.classList.add('press'); await wait(220); demo.classList.remove('press', 'typing');
+      await wait(450); demo.classList.add('done');
+      await wait(3600); n = (n + 1) % qs.length;
+    }
+    running = false;
+  }
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { sdq.textContent = qs[0]; demo.classList.add('done'); }
+  else new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !running) play(); }, { threshold: .35 }).observe(demo);
+}
+</script>
+</body>
+</html>
