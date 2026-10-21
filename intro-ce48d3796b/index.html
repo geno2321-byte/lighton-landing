@@ -474,7 +474,7 @@ body{background:var(--bg);color:var(--fg);
 
 <script>
 /* 주소 끝에 ?과=피부과 를 붙이면 그 과 사례가 맨 앞으로 온다 */
-const want = new URLSearchParams(location.search).get('과');
+const want = new URLSearchParams(location.search).get('과') || '피부과';
 if (want) document.querySelectorAll('[data-sort]').forEach(g => {
   [...g.children].filter(c => c.dataset.dept.split(' ').includes(want))
     .reverse().forEach(c => { c.classList.add('pick'); g.prepend(c); });
