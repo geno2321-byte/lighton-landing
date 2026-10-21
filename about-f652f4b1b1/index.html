@@ -182,6 +182,7 @@ body{background:var(--bg);color:var(--fg);
 .ch-link{margin:20px auto 0;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border-radius:999px;border:1px solid var(--lime);color:var(--lime);text-decoration:none;font-weight:700;transition:transform .5s var(--ease)}
 .ch-link:hover{transform:scale(1.02)}
 .case-h{margin-top:104px}
+.cases .case-h{font-size:clamp(1.5rem,6.2vw,2.25rem);line-height:1.4}
 .nda{margin-top:10px;text-align:center;color:#6F6F6F;font-size:.8125rem;line-height:1.6}
 .talk{margin-top:28px;padding-top:24px;border-top:1px solid #cfd8c0;display:grid;grid-template-columns:1fr;gap:20px;align-items:center}
 @media(min-width:768px){.talk{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px}}
@@ -266,6 +267,11 @@ body{background:var(--bg);color:var(--fg);
 .tlist b{display:block;font-size:.9375rem;color:#C4C4C4;font-weight:700}
 .tlist span{display:block;margin-top:8px;font-size:1.125rem;font-weight:500;line-height:1.65;color:#E6E6E6}
 .tlist li:first-child{grid-column:1/-1}
+.tlist span+span{margin-top:14px}
+.tlist span+b{margin-top:24px}
+.tlist li{justify-self:center;width:100%;max-width:480px;padding:24px 26px}
+.tlist b{font-size:1.25rem;color:var(--fg);font-weight:800}
+.tlist span{font-size:1.0625rem}
 
 /* 문의 */
 .ask{padding:88px 0 96px;text-align:center}
@@ -306,7 +312,7 @@ body{background:var(--bg);color:var(--fg);
   <div class="claim" data-reveal>
     <p>비즈니스를 위한 유튜브에서<br>구독자, 조회수는 중요하지 않습니다.</p>
     <p class="cv-k">중요한 것은 오직</p>
-    <p class="cv"><b>문의 수</b>입니다.</p><!-- 08판: 전환율 뿐입니다 -->
+    <p class="cv"><b>환자</b>입니다.</p><!-- 08판: 전환율 뿐입니다 -->
   </div>
   <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
 
@@ -329,7 +335,7 @@ body{background:var(--bg);color:var(--fg);
   </figure>
 
   <div class="versus" data-reveal>
-    <p class="vs-q">똑같이 영상을 봐도,<br><b>병원까지 오는 사람은 다릅니다.</b></p>
+    <p class="vs-q">똑같은 영상을 본 두 사람<br><b>어떤 사람이 병원까지 찾아올까요?</b></p>
     <div class="vs-row">
       <div class="vs-card"><small>알고리즘 추천</small><p>우연히<br>본 사람</p><span class="vs-res"><i>병원에 올 가능성</i>낮음</span></div>
       <span class="vs-mark">VS</span>
@@ -345,10 +351,10 @@ body{background:var(--bg);color:var(--fg);
   </div>
 
 -->
-  <p class="say" data-reveal>검색으로 찾아온 환자는<br>원장님 설명을 먼저 듣고 옵니다.<br><b>진료실에 오기 전에 이미<br>원장님을 알고 옵니다.</b></p><!-- 09판 추가: 브랜딩 한 줄 -->
+  <p class="say" data-reveal>검색하는 사람이 가진 문제를 파악하고<br>그 문제를 해결하는 영상이<br><b>검색 결과에 나오게 만듭니다.</b></p><!-- 09판 추가: 브랜딩 한 줄 -->
 
   <div class="channel" data-reveal>
-    <p class="say">저는 이 채널 하나로 지금도<br><b>매달 10건 이상의 문의</b>를<br>받고 있습니다.</p>
+    <p class="say">저는 이 전략 덕분에<br>작은 유튜브 채널 하나로<br><b>매달 10건 이상의 문의</b>를<br>받고 있습니다.</p>
     <figure class="ch-card"><img src="a/channel.png" alt="라이트온 유튜브 채널 정보. 구독자 2.29천 명, 동영상 22개." loading="lazy" decoding="async"></figure>
     <div class="mails" aria-label="최근 받은 문의 메일 제목들. 개인 이름은 가려져 있습니다.">
       <img src="a/mail2.png" alt="" style="--i:0">
@@ -359,7 +365,7 @@ body{background:var(--bg);color:var(--fg);
     </div>
   </div>
 
-  <h2 class="case-h" data-reveal>고객 사례</h2>
+  <h2 class="case-h" data-reveal>수년 동안 검증해 온 이 전략을<br>병원 채널에 적용하자<br>놀라운 결과로 돌아왔습니다.</h2>
   <p class="nda" data-reveal>계약상 비밀유지 의무가 있어<br>병원 정보는 공개할 수 없는 점 양해 부탁드립니다.</p>
 
   <article class="story" data-reveal>
@@ -413,6 +419,30 @@ body{background:var(--bg);color:var(--fg);
   </div>
 </div></section>
 
+<section class="compare"><div class="wrap">
+  <h2 data-reveal>진행 방식</h2>
+  <div class="flow" data-reveal>
+    <div class="node"><span class="no">01</span><b>검색어·경쟁 영상 분석</b><small>환자가 실제로 검색하는 말을 찾습니다.</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">02</span><b>영상 주제·원고 기획</b><small>의료광고 기준으로 점검하고<br>원장님 확인을 받습니다.</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">03</span><b>촬영</b><small>월 1회, 한 번에 한 달 분량을 찍습니다.</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">04</span><b>편집·제목·썸네일</b><small>롱폼 월 4편 · 쇼츠 월 10편</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">05</span><b>업로드·채널 관리</b><small>설명란과 고정 댓글에<br>문의 경로를 연결합니다.</small></div>
+    <div class="link"></div>
+    <div class="node"><span class="no">06</span><b>월간 리포트</b><small>시청 반응을 보고 다음 달 기획에 반영합니다.</small></div>
+  </div>
+</div></section>
+
+<section class="terms"><div class="wrap">
+  <h2 data-reveal>계약 조건</h2>
+  <ul class="tlist">
+    <li data-reveal><b>계약 기준</b><span>플로우애즈는 장기계약을<br>강요하지 않습니다.<br>모든 계약은 한 달 단위 갱신으로<br>진행되며, 원하실 경우<br>언제든 해지가 가능합니다.</span><span>다만, 유튜브 마케팅의 힘은<br>누적된 콘텐츠에서 나옵니다.<br>6개월은 이어가 보시길 권합니다.</span><b>결제 조건</b><span>매달 1일, 지정 계좌로 현금 결제<br>(세금계산서 발행)</span></li>
+  </ul>
+</div></section>
+
 <section class="price-sec"><div class="wrap">
   <h2 data-reveal>비용 안내</h2>
   <div class="plans">
@@ -427,37 +457,6 @@ body{background:var(--bg);color:var(--fg);
       <p class="diff">전문 감독 촬영부터<br>모두 맡는 올인원 패키지입니다.</p>
     </article>
   </div>
-</div></section>
-
-<section class="compare"><div class="wrap">
-  <h2 data-reveal>진행 방식</h2>
-  <div class="flow" data-reveal>
-    <div class="node"><span class="no">01</span><b>검색어·경쟁 영상 분석</b><small>환자가 실제로 검색하는 말을 찾습니다.</small></div>
-    <div class="link"></div>
-    <div class="node"><span class="no">02</span><b>영상 주제·원고 기획</b><small>의료광고 기준으로 점검하고<br>원장님 확인을 받습니다.</small></div>
-    <div class="fork"><i></i><i></i></div>
-    <div class="split">
-      <div class="node"><span class="tag">베이직</span><b>원장님 직접 촬영</b><small>영상만 보내주세요.</small></div>
-      <div class="node pro"><span class="tag">프리미엄</span><b>전문 감독 촬영</b><small>저희가 촬영합니다.</small></div>
-    </div>
-    <div class="merge"><i></i><i></i></div>
-    <div class="node"><span class="no">03</span><b>편집·제목·썸네일</b><small>롱폼 월 4편 · 쇼츠 월 10편</small></div>
-    <div class="link"></div>
-    <div class="node"><span class="no">04</span><b>업로드·채널 관리</b><small>설명란과 고정 댓글에<br>문의 경로를 연결합니다.</small></div>
-    <div class="link"></div>
-    <div class="node"><span class="no">05</span><b>월간 리포트</b><small>시청 반응을 보고 다음 달 기획에 반영합니다.</small></div>
-  </div>
-  <p class="flow-note" data-reveal>촬영은 월 1회, 한 번에 한 달 분량을 찍습니다.</p>
-</div></section>
-
-<section class="terms"><div class="wrap">
-  <h2 data-reveal>계약 조건</h2>
-  <ul class="tlist">
-    <li data-reveal><b>계약 기간</b><span>첫 계약은 3개월입니다.<br>검색으로 찾아오는 영상은<br>시간이 지나며 조회수가 쌓입니다.<br>12편이 쌓이는 3개월이 지나야<br>방향을 판단할 수 있습니다.<br>이후에는 월 단위로 연장합니다.</span></li>
-
-    <li data-reveal><b>결제 및 환불</b><span>매달 작업을 시작하기 전에 결제합니다.<br>매달 첫 촬영 전에는 전액 환불해 드립니다.</span></li>
-    <li data-reveal><b>소유권</b><span>채널과 제작된 영상은<br>모두 병원 소유입니다.</span></li>
-  </ul>
 </div></section>
 
 <section class="ask"><div class="wrap">
