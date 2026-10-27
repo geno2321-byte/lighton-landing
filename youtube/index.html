@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>플로우애즈 — 월간 아웃라이어</title>
+<meta name="description" content="조회수에 가장 큰 영향을 주는 건 썸네일입니다. 매달 약 1만 개 영상에서 평소보다 높은 조회수를 기록한 영상만 골라 정리한 월간 아웃라이어를 매달 무료로 받아 보세요.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+<style>
+:root{
+  --bg:#0E0E0E; --bg2:#141414; --card:#161616; --line:#262626;
+  --fg:#FFFFFF; --sub:#C8C8C8; --mute:#9A9A9A; --lime:#A9FF00;
+  --r:24px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+#sub{scroll-margin-top:96px}
+body{background:var(--bg);color:var(--fg);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px;text-align:center}
+@media(min-width:768px){.wrap{padding:0 40px}}
+section{padding:112px 0}
+@media(min-width:768px){section{padding:144px 0}}
+.lime{color:var(--lime)}
+h2{font-size:clamp(2rem,6vw,3.25rem);font-weight:800;line-height:1.22;letter-spacing:-.035em;text-wrap:balance}
+p{text-wrap:pretty}
+.lead{font-size:clamp(1.0625rem,2.6vw,1.25rem);color:var(--sub);line-height:1.8;max-width:62ch;margin-left:auto;margin-right:auto}
+.lead + .lead{margin-top:20px}
+
+/* 등장 */
+.rv{opacity:0;transform:translateY(2rem);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0) * 80ms)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* 0 · 상단 */
+.top{position:fixed;inset:0 0 auto 0;z-index:20;background:rgba(14,14,14,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(38,38,38,.7)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;text-align:left}
+.brand{font-weight:800;font-size:1.0625rem;letter-spacing:-.02em}
+.brand span{color:var(--lime)}
+.nav{display:flex;gap:22px;font-size:.9375rem;color:var(--sub)}
+.nav a{transition:color .5s var(--ease)}
+.nav a:hover{color:var(--fg)}
+@media(max-width:480px){.nav{gap:14px;font-size:.875rem}}
+
+/* 1 · 히어로 — 줄 사이·덩어리 사이를 넉넉히 */
+.hero{min-height:100dvh;display:grid;align-items:center;padding:128px 0 112px;position:relative;
+  background:radial-gradient(55% 45% at 50% 55%,rgba(169,255,0,.08),transparent 70%)}
+.hero .q{font-size:clamp(1.75rem,5.4vw,3rem);font-weight:700;line-height:1.5;letter-spacing:-.02em}
+.hero .no{margin-top:44px;display:inline-grid;gap:10px;text-align:left;list-style:none;font-size:clamp(1.125rem,3.2vw,1.5rem);color:var(--sub);font-weight:500;line-height:1.5;animation:rise .9s var(--ease) .25s both,fade .6s var(--ease) 1.2s forwards}
+.hero .no li{display:flex;align-items:center;gap:12px}
+.hero .no iconify-icon{font-size:1.25em;color:var(--mute)}
+.hero .no span{position:relative}
+.hero .no span::after{content:"";position:absolute;left:-2px;right:-2px;top:52%;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left;animation:strike .5s var(--ease) 1.2s forwards}
+.hero .no li+li span::after{animation-delay:1.35s}
+@keyframes strike{to{transform:none}}
+@keyframes fade{to{opacity:.4}}
+.hero .nope{margin-top:28px;font-size:clamp(1.25rem,3.6vw,1.75rem);font-weight:700;animation:rise .9s var(--ease) 1.6s both}
+.hero .a{margin-top:44px;font-size:clamp(3rem,12vw,7rem);font-weight:800;line-height:1.2;letter-spacing:-.04em}
+.hero .a em{font-style:normal;color:var(--lime)}
+.hero .a small{display:block;margin-bottom:6px;font-size:clamp(1.125rem,3.4vw,1.5rem);font-weight:600;color:var(--sub);letter-spacing:-.02em}
+.hero .q,.hero .a{animation:rise .9s var(--ease) both}
+.hero .a{animation-delay:2s}
+@keyframes rise{from{opacity:0;transform:translateY(1.5rem)}to{opacity:1;transform:none}}
+.down{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);color:var(--mute);animation:bob 2.4s var(--ease) infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* 2 · 아웃라이어 */
+.bridge{font-size:clamp(1.125rem,3vw,1.375rem);color:var(--sub);line-height:1.8}
+.bridge b{color:var(--fg);font-weight:700}
+.big{display:block;font-size:clamp(3.25rem,14vw,6.5rem);line-height:1.05;letter-spacing:-.05em;color:var(--lime)}
+
+/* 높은 조회수 썸네일 띠 — 천천히 옆으로 흐른다 */
+.strip{margin:56px 0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.strip .track{display:flex;gap:12px;width:max-content;animation:flow 60s linear infinite}
+@media(min-width:768px){.strip .track{gap:16px}}
+.strip:hover .track{animation-play-state:paused}
+@keyframes flow{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.strip .track{animation:none}}
+.tcard{flex:none;width:220px}
+@media(min-width:768px){.tcard{width:300px}}
+.tcard img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#1d1d1d}
+@media(min-width:768px){.tcard img{border-radius:16px}}
+.tcard b{display:block;margin-top:10px;text-align:center;font-size:clamp(1.125rem,4vw,1.5rem);font-weight:800;letter-spacing:-.03em}
+.tcard b small{font-size:.7em;font-weight:600;color:var(--mute);margin-left:3px}
+.dots{display:grid;justify-items:center;gap:14px;margin:0 0 72px}
+.dots i{width:5px;height:5px;border-radius:50%;background:#555}
+
+/* 같은 10만 회, 다른 의미 — 흐름도 */
+.flow{margin:56px auto 0;max-width:760px}
+.flow .root{display:inline-block;padding:14px 28px;border-radius:999px;border:1px solid #3a3a3a;background:var(--card);font-size:clamp(1.25rem,4.4vw,1.75rem);font-weight:800;letter-spacing:-.03em}
+.flow .root span{color:var(--mute);font-weight:600;font-size:.7em;margin-right:8px}
+.flow .stem{width:2px;height:32px;margin:0 auto;background:#3a3a3a}
+.flow .branches{display:grid;grid-template-columns:repeat(3,1fr);position:relative}
+.flow .branches::before{content:"";position:absolute;top:0;left:16.66%;right:16.66%;height:2px;background:#3a3a3a}
+.flow .br{display:flex;flex-direction:column;align-items:center;padding:0 4px}
+.flow .br::before{content:"";width:2px;height:28px;background:#3a3a3a}
+.flow .ch{margin-top:0;padding:10px 14px;border-radius:999px;background:var(--fg);color:#0a0a0a;font-weight:800;font-size:clamp(.8125rem,3.2vw,1.125rem);line-height:1.25;white-space:nowrap}
+.flow .ch small{display:block;font-size:.72em;font-weight:600;color:#555}
+.flow .arrow{color:#555;margin:10px 0 6px;font-size:1.25rem}
+.flow .res{font-size:clamp(1rem,4vw,1.5rem);font-weight:800;color:var(--sub)}
+.flow .hot .ch{background:var(--lime)}
+.flow .hot .res{color:var(--lime)}
+.after{margin-top:56px}
+
+.same{margin-top:112px}
+.same h3{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:800;letter-spacing:-.03em;line-height:1.35}
+/* 포스터·랜딩 두 카드를 같은 크기로 */
+.ex{display:grid;gap:10px;margin:36px auto 0;grid-template-columns:1fr 1fr;max-width:640px}
+@media(min-width:768px){.ex{gap:20px}}
+.ex .box{padding:10px 10px 16px;display:flex;flex-direction:column;gap:12px;border-radius:16px}
+@media(min-width:768px){.ex .box{padding:16px 16px 22px;border-radius:var(--r)}}
+.ex .pic{aspect-ratio:4/5;border-radius:8px;overflow:hidden}
+.ex .pic img{display:block;width:100%;height:100%;object-fit:cover}
+.ex .stack{display:grid;grid-template-rows:repeat(3,1fr);gap:6px;background:none}
+.ex .stack img{border-radius:6px;object-position:top left;background:#fff}
+.ex .cap{font-size:clamp(.875rem,3vw,1.0625rem);font-weight:700;line-height:1.4}
+.ex .cap span{display:block;font-weight:400;color:var(--mute);font-size:clamp(.75rem,2.6vw,.9375rem);margin-top:2px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+
+/* 3 · 권위 인용 */
+.quote{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.who{display:flex;flex-direction:column;align-items:center;gap:24px}
+.ph{width:120px;height:120px;border-radius:50%;object-fit:cover;flex:none;border:2px solid #2c2c2c}
+@media(min-width:768px){.ph{width:144px;height:144px}}
+.who p{color:var(--sub);font-size:clamp(1.1875rem,3.6vw,1.625rem);line-height:1.6}
+.who b{color:var(--fg)}
+blockquote{margin-top:48px;font-size:clamp(1.375rem,4.6vw,2.5rem);font-weight:700;line-height:1.5;letter-spacing:-.03em}
+blockquote::before{content:"";display:block;width:48px;height:3px;margin:0 auto 32px;background:var(--lime)}
+
+/* 4 · 문제 */
+.split{max-width:860px}
+.rec{position:relative;margin-top:36px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);overflow:hidden}
+.rec .bar3{display:flex;gap:6px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.rec .bar3 i{width:10px;height:10px;border-radius:50%;background:#333}
+.rec video{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.rec .ov{position:absolute;inset:0;display:grid;place-items:center;padding:20px;background:rgba(10,10,10,.62)}
+.rec .ov .lead{margin:0;color:#fff;font-size:clamp(1.25rem,4.6vw,2rem);font-weight:700;line-height:1.6}
+.split h2{margin-top:72px;font-size:clamp(2.25rem,8.5vw,4.75rem);line-height:1.25;color:var(--lime)}
+.num{display:grid;place-items:center;width:32px;height:32px;margin:0 auto 12px;border-radius:50%;border:1px solid var(--lime);color:var(--lime);font-weight:800;font-size:.9375rem}
+.split .lead{margin-top:40px}
+
+
+/* 5 · 만든 사람 */
+.maker h2{font-size:clamp(1.5rem,5.6vw,3.25rem)}
+.who2{margin-top:16px;font-size:.9375rem;color:var(--mute)}
+.olabel{margin-top:56px;font-size:.9375rem;font-weight:700;color:var(--sub)}
+.count{display:flex;justify-content:center;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-top:6px}
+.odo{display:flex;font-size:clamp(3.5rem,14vw,8rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--lime);font-variant-numeric:tabular-nums}
+.odo .d{height:1em;overflow:hidden;display:inline-block}
+.odo .d span{display:flex;flex-direction:column;transition:transform 1.6s var(--ease)}
+.odo .d span b{height:1em;font-weight:800}
+.odo .c{display:inline-block}
+.count .u{font-size:clamp(1.25rem,3.4vw,1.75rem);font-weight:700;padding-bottom:.4em}
+
+/* 6 · 자료 + 신청 */
+.get{background:var(--bg2);border-top:1px solid var(--line)}
+.product{max-width:640px}
+.ptitle{font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.2}
+.ptitle small{display:block;margin-top:8px;font-size:.45em;font-weight:500;color:var(--sub);letter-spacing:-.01em}
+.inhead{margin-top:64px;font-size:.875rem;font-weight:700;color:var(--mute)}
+.inside{margin-top:16px;display:inline-grid;gap:14px;text-align:left}
+.inside li{list-style:none;display:flex;gap:12px;align-items:flex-start;color:var(--sub);font-size:clamp(1rem,2.6vw,1.125rem);line-height:1.6}
+.inside iconify-icon{color:var(--lime);font-size:1.25rem;flex:none;margin-top:3px}
+.cover{aspect-ratio:3/4;max-width:340px;width:100%;margin:0 auto;border-radius:18px;background:linear-gradient(160deg,#1b1b1b,#101010);border:1px solid #2c2c2c;padding:32px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 30px 80px rgba(0,0,0,.5);transform:rotate(-3deg);text-align:left}
+.cover .m{font-size:.8125rem;color:var(--mute)}
+.cover .n{font-size:2.5rem;font-weight:800;line-height:1.1;letter-spacing:-.04em}
+.cover .n em{font-style:normal;color:var(--lime)}
+.cover .n small{display:block;margin-top:8px;font-size:.875rem;font-weight:500;color:var(--sub);letter-spacing:-.01em}
+.cover .f{display:flex;justify-content:space-between;font-size:.8125rem;color:var(--sub);border-top:1px solid #2c2c2c;padding-top:14px}
+.thumbs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.thumbs img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:#262626}
+.thumbs img:first-child{grid-column:span 2}
+.offer{margin-top:64px;font-size:clamp(1.25rem,3.8vw,1.75rem);font-weight:700;line-height:1.5;letter-spacing:-.02em}
+.offer b{color:var(--lime)}
+
+.form{margin-top:32px;text-align:left;display:grid;gap:22px}
+.form label.t{display:block;font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:10px}
+.form input[type=email]{width:100%;min-height:56px;padding:0 20px;border-radius:14px;border:1px solid #333;background:var(--card);color:var(--fg);font:inherit;font-size:1.0625rem;transition:border-color .5s var(--ease)}
+.form input[type=email]:focus{outline:none;border-color:var(--lime)}
+.form input[type=email]::placeholder{color:#6a6a6a}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #333;background:var(--card);color:var(--sub);font-size:.9375rem;cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease),border-color .5s var(--ease)}
+.chips input:checked + span{background:var(--fg);color:#0a0a0a;border-color:var(--fg);font-weight:700}
+.chips input:focus-visible + span{outline:2px solid var(--lime);outline-offset:2px}
+.agree{display:grid;gap:10px;font-size:.9375rem;color:var(--sub)}
+.agree label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;line-height:1.5}
+.agree input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--lime)}
+.agree b{color:var(--fg)}
+.agree details{margin-left:30px;font-size:.8125rem;color:var(--mute)}
+.agree summary{cursor:pointer;width:max-content}
+.agree details p{margin-top:6px;line-height:1.6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;padding:0 28px;border:0;border-radius:999px;background:var(--lime);color:#0a0a0a;font:inherit;font-weight:800;font-size:1.0625rem;cursor:pointer;transition:transform .5s var(--ease)}
+.btn:hover{transform:scale(1.02)}
+.btn:active{transform:scale(.98)}
+.btn iconify-icon{transition:transform .5s var(--ease)}
+.btn:hover iconify-icon{transform:translateX(4px)}
+.note{font-size:.8125rem;color:var(--mute);text-align:center}
+
+/* 신청 뒤 */
+.done{display:none;margin-top:32px;border:1px solid var(--line);border-radius:var(--r);padding:32px 24px;background:var(--card)}
+.done.on{display:block}
+.done h3{font-size:clamp(1.375rem,4vw,1.75rem);font-weight:800;letter-spacing:-.02em}
+.done p{margin-top:12px;color:var(--sub);line-height:1.7}
+.done a{display:inline-flex;align-items:center;gap:8px;margin-top:20px;min-height:48px;font-weight:800;color:var(--lime)}
+footer{border-top:1px solid var(--line);padding:28px 0;font-size:.8125rem;line-height:1.8;color:#6a6a6a}
+footer a{color:inherit;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<!-- 0 · 상단 -->
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#">FLOWADS<span>.</span></a>
+    <nav class="nav">
+      <a href="#get">월간 아웃라이어</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1 · 히어로 -->
+<section class="hero">
+  <div class="wrap">
+    <p class="q">유튜브에서<br>조회수를 결정짓는 것은<br>무엇일까요?</p>
+    <ul class="no">
+      <li><iconify-icon icon="solar:camera-linear"></iconify-icon><span>값비싼 장비?</span></li>
+      <li><iconify-icon icon="solar:clapperboard-edit-linear"></iconify-icon><span>화려한 편집 실력?</span></li>
+    </ul>
+    <p class="nope">아닙니다.</p>
+    <p class="a"><small>조회수에 가장 큰 영향을 주는 건</small>바로<br><em>썸네일</em>입니다.</p>
+  </div>
+  <a class="down" href="#outlier" aria-label="아래로"><iconify-icon icon="solar:alt-arrow-down-linear" width="22"></iconify-icon></a>
+</section>
+
+<!-- 2 · 아웃라이어 -->
+<section id="outlier">
+  <div class="wrap">
+    <p class="bridge rv">높은 조회수를 기록한<br>이 영상들의 특징,<br><b>알고 있으신가요?</b></p>
+  </div>
+
+  <!-- 조회수는 261023 수집 시점 값. 구독자 10만 이하 채널에서 고름(_100선_후보_261023.json) -->
+  <div class="strip rv" aria-label="평소보다 높은 조회수를 기록한 영상 썸네일">
+    <div class="track" id="track">
+      <div class="tcard"><img src="assets/strip/A4h3S0NmBFM.jpg" alt="" loading="lazy" decoding="async"><b>220만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/EwQzLTlokWI.jpg" alt="" loading="lazy" decoding="async"><b>173만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/g1F5cbTp-VU.jpg" alt="" loading="lazy" decoding="async"><b>152만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/B0a5ak9dxaU.jpg" alt="" loading="lazy" decoding="async"><b>118만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/Yo3lKRSaCks.jpg" alt="" loading="lazy" decoding="async"><b>91만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/6cF2pE19_oA.jpg" alt="" loading="lazy" decoding="async"><b>91만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/-23OzkNAAts.jpg" alt="" loading="lazy" decoding="async"><b>76만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/CGnYynV5PUo.jpg" alt="" loading="lazy" decoding="async"><b>67만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/FKcQ3s5udK4.jpg" alt="" loading="lazy" decoding="async"><b>67만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/TGbBffTwBoY.jpg" alt="" loading="lazy" decoding="async"><b>62만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/c4ElCUnMA8E.jpg" alt="" loading="lazy" decoding="async"><b>53만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/vUU4ddSPQ04.jpg" alt="" loading="lazy" decoding="async"><b>52만<small>회</small></b></div>
+    </div>
+  </div>
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="wrap">
+    <h2 class="rv"><span class="big">아웃라이어,</span>들어보셨나요?</h2>
+    <p class="lead rv" style="margin-top:28px">채널이 평소 기록하던 조회수보다<br>유난히 높은 조회수를 기록한 영상을<br>아웃라이어라고 부릅니다.</p>
+
+    <div class="flow rv">
+      <div class="root"><span>조회수</span> 10만 회</div>
+      <div class="stem"></div>
+      <div class="branches">
+        <div class="br"><div class="ch"><small>구독자</small>100만 채널</div><div class="arrow"><iconify-icon icon="solar:arrow-down-linear"></iconify-icon></div><div class="res">평범</div></div>
+        <div class="br"><div class="ch"><small>구독자</small>1만 채널</div><div class="arrow"><iconify-icon icon="solar:arrow-down-linear"></iconify-icon></div><div class="res">눈에 띔</div></div>
+        <div class="br hot"><div class="ch"><small>구독자</small>1천 채널</div><div class="arrow"><iconify-icon icon="solar:arrow-down-linear"></iconify-icon></div><div class="res">아웃라이어</div></div>
+      </div>
+    </div>
+
+    <p class="lead after rv">같은 10만 회라도<br>채널에 따라 의미가 완전히 다릅니다.</p>
+    <p class="lead rv">평소엔 오지 않던 사람까지<br>끌어들였다면, 그 영상에는<br>분명 사람들을 끌어당긴 이유가 있습니다.</p>
+    <p class="lead rv">그 이유를 찾아<br>내 영상에 가져오는 것.<br><b style="color:var(--fg)">이게 아웃라이어 벤치마킹입니다.</b></p>
+
+    <div class="same">
+      <h3 class="rv"><span style="color:var(--mute)">낯설게 들리지만,</span><br>다른 업계에선<br>이미 당연한 일입니다.</h3>
+      <div class="ex">
+        <div class="box rv" style="--i:0">
+          <div class="pic"><img src="assets/posters_back.jpg" alt="등 돌린 인물 구도의 영화 포스터 모음" loading="lazy" decoding="async"></div>
+          <div class="cap">영화 포스터<span>같은 구도가<br>반복됩니다</span></div>
+        </div>
+        <div class="box rv" style="--i:1">
+          <div class="pic stack">
+            <img src="assets/land_1.jpg" alt="왼쪽 제목, 오른쪽 그림 구성의 랜딩 페이지" loading="lazy" decoding="async">
+            <img src="assets/land_2.jpg" alt="" loading="lazy" decoding="async">
+            <img src="assets/land_3.jpg" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="cap">랜딩 페이지<span>왼쪽엔 제목,<br>오른쪽엔 그림</span></div>
+        </div>
+      </div>
+      <p class="lead rv" style="margin-top:48px"><b style="color:var(--fg)">효과가 증명된 형식은 반복됩니다.</b><br>유튜브도 마찬가지입니다.</p>
+    </div>
+
+    <!-- 권위 인용 — 출처: Aprilynne Alter 영상(6YiBI17oICI) 1:50 지점에 「JAY ALTO」 이름표로 등장(261023 확인) -->
+    <div class="who rv" style="margin-top:56px">
+      <img class="ph" src="assets/jay_alto.jpg" alt="제이 알토" loading="lazy" decoding="async">
+      <p>세계 1위 유튜버<br>미스터비스트의<br>유튜브 컨설턴트로 알려진<br><b>제이 알토</b>는 이렇게 말합니다.</p>
+    </div>
+    <blockquote class="rv">작은 채널의 영상이<br>유난히 높은 조회수를 기록했다면,<br>거기엔 분명 통한 무언가가 있습니다.<br>그게 바로 참고할 지점입니다.</blockquote>
+    <p class="lead rv" style="margin-top:48px">세계에서 가장 큰 채널을 만드는 사람들도,<br>영상을 기획할 때 아웃라이어부터 찾습니다.</p>
+  </div>
+</section>
+
+<!-- 4 · 문제 -->
+<section>
+  <div class="wrap split">
+    <div class="rec rv" style="margin-top:0">
+      <div class="bar3"><i></i><i></i><i></i></div>
+      <video src="assets/finder_outlier_261023.mp4" autoplay muted loop playsinline preload="metadata" aria-label="분석 도구로 아웃라이어 영상을 찾는 화면"></video>
+      <div class="ov"><p class="lead">그래서 요즘 많은 분들이<br>분석 도구로<br>아웃라이어 영상을 찾아봅니다.</p></div>
+    </div>
+    <h2 class="rv">그런데 막히는 건<br>그다음입니다.</h2>
+    <div>
+      <p class="lead rv"><span class="num">1</span>찾은 영상을 내 영상에<br>어떻게 써야 할지 모릅니다.</p>
+      <p class="lead rv"><span class="num">2</span>통째로 따라 하면 베끼기가 되고,<br>겉모양만 따라 하면<br>효과가 사라집니다.</p>
+      <p class="lead rv"><span class="num">3</span>구도였는지, 문구였는지,<br>색이었는지.<br><b style="color:var(--fg)">무엇이 통했는지 알아야<br>내 영상에 쓸 수 있습니다.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · 만든 사람 -->
+<section class="maker" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <h2 class="rv">마케팅 기획 11년,<br>콘텐츠 마케팅 에이전시를<br>7년째 운영하는 대표가<br><span class="lime">직접 분석했습니다.</span></h2>
+    <p class="olabel rv">매달 분석하는 영상</p>
+    <div class="count rv">
+      <div class="u">약</div>
+      <div class="odo" id="odo" data-n="10,000" aria-label="약 10,000"></div>
+      <div class="u">개</div>
+    </div>
+    <p class="lead rv" style="margin-top:24px">그중 평소보다 높은 조회수를 기록한 영상만 골라,<br>무엇이 통했는지 패턴별로 정리했습니다.</p>
+    <a class="btn rv" href="#sub" style="margin-top:36px">무료로 받아보기 <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon></a>
+  </div>
+</section>
+
+<!-- 6 · 자료 소개 + 신청 -->
+<section class="get" id="get">
+  <div class="wrap product">
+    <div class="cover rv" aria-hidden="true">
+      <div class="m">FLOWADS<span class="lime">.</span> · 2026년 11월판</div>
+      <div>
+        <div class="n">월간<br><em>아웃라이어</em><small>(조회수를 높이는 썸네일)</small></div>
+        <div class="thumbs" style="margin-top:22px"><img src="assets/strip/YlgwgQSjR8o.jpg" alt=""><img src="assets/strip/A4h3S0NmBFM.jpg" alt=""><img src="assets/strip/dI2_EuwCzc4.jpg" alt=""></div>
+      </div>
+      <div class="f"><span>매달 약 1만 개 분석</span><span>무료</span></div>
+    </div>
+    <p class="inhead rv">이 자료에 들어 있는 것</p>
+    <ul class="inside">
+      <li class="rv" style="--i:0"><iconify-icon icon="solar:check-circle-linear"></iconify-icon><span>조회수가 높게 나온 썸네일 모음</span></li>
+      <li class="rv" style="--i:1"><iconify-icon icon="solar:check-circle-linear"></iconify-icon><span>이 썸네일이 높은 조회수를 기록한<br>구조 해석까지</span></li>
+      <li class="rv" style="--i:2"><iconify-icon icon="solar:check-circle-linear"></iconify-icon><span>내 영상에 바로 쓰는<br>적용 예시까지</span></li>
+    </ul>
+
+    <p class="offer rv">지금 신청하시면<br>이런 자료를 <b>매달 무료로</b><br>받아보실 수 있습니다.</p>
+
+    <!-- 브레보 구독폼(「월간 아웃라이어 홈 신청」, 목록 #2)으로 보낸다. 필드 이름 EMAIL·STAGE는 브레보 속성 ID -->
+    <form class="form rv" id="sub" novalidate action="https://45655347.sibforms.com/serve/MUIFAI3IZIPxlxoC2nfKLUiwlV0YWxKvukLcuIrHos272igGGaWfpPqbxdKUdaKPge4P3izUm9MT_lPX9mFGxggp2yZMNSCvh6E4oSRag0YCyv98AlpMi4B9GAJETjiOZDvbUdA-h1rFB6FLeh9ylqP_K6KThodslWJIwrxFk2pv6FmQjy2DmczkyzRruABXydN305o8OY7GHYulIA==">
+      <input type="text" name="email_address_check" value="" hidden tabindex="-1" autocomplete="off">
+      <input type="hidden" name="locale" value="ko">
+      <div>
+        <label class="t" for="em">이메일 <span style="font-weight:400;color:var(--mute)">(모든 자료는 메일로 보내드립니다.)</span></label>
+        <input type="email" id="em" name="EMAIL" placeholder="name@example.com" autocomplete="email" required>
+      </div>
+      <fieldset style="border:0">
+        <legend class="t" style="font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:10px">지금 어느 단계인가요?</legend>
+        <div class="chips">
+          <label><input type="radio" name="STAGE" value="1"><span>이제 시작해 보려는 단계입니다</span></label>
+          <label><input type="radio" name="STAGE" value="2"><span>채널을 개설했고 영상을 올리고 있습니다</span></label>
+          <label><input type="radio" name="STAGE" value="3"><span>꾸준히 올리고 있지만 조회수가 늘지 않습니다</span></label>
+          <label><input type="radio" name="STAGE" value="4"><span>사업·브랜드 홍보에 유튜브를 쓰고 있습니다</span></label>
+          <label><input type="radio" name="STAGE" value="5"><span>혼자 운영하기엔 시간이 부족합니다</span></label>
+        </div>
+      </fieldset>
+      <div class="agree">
+        <label><input type="checkbox" name="privacy" required><span><b>[필수]</b> 개인정보 수집·이용에 동의합니다.</span></label>
+        <details><summary>자세히 보기</summary><p>수집 항목: 이메일, 운영 단계<br>이용 목적: 자료·뉴스레터 발송<br>보유 기간: 구독 해지 시까지<br>발송 위탁: Brevo(프랑스) · <a href="privacy-newsletter.html" target="_blank" rel="noopener">개인정보처리방침</a></p></details>
+        <label><input type="checkbox" name="ad" required><span><b>[필수]</b> 플로우애즈에서 보내는 광고성 정보 수신에 동의합니다.</span></label>
+      </div>
+      <button class="btn" type="submit">무료로 받아보기 <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon></button>
+      <p class="note">입력하신 메일로 이번 달 자료를 바로 보내드립니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
+    </form><!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>플로우애즈 — 월간 아웃라이어</title>
+<meta name="description" content="조회수에 가장 큰 영향을 주는 건 썸네일입니다. 매달 약 1만 개 영상에서 평소보다 높은 조회수를 기록한 영상만 골라 정리한 월간 아웃라이어를 매달 무료로 받아 보세요.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+<script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+<style>
+:root{
+  --bg:#0E0E0E; --bg2:#141414; --card:#161616; --line:#262626;
+  --fg:#FFFFFF; --sub:#C8C8C8; --mute:#9A9A9A; --lime:#A9FF00;
+  --r:24px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+#sub{scroll-margin-top:96px}
+body{background:var(--bg);color:var(--fg);
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:hidden;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px;text-align:center}
+@media(min-width:768px){.wrap{padding:0 40px}}
+section{padding:112px 0}
+@media(min-width:768px){section{padding:144px 0}}
+.lime{color:var(--lime)}
+h2{font-size:clamp(2rem,6vw,3.25rem);font-weight:800;line-height:1.22;letter-spacing:-.035em;text-wrap:balance}
+p{text-wrap:pretty}
+.lead{font-size:clamp(1.0625rem,2.6vw,1.25rem);color:var(--sub);line-height:1.8;max-width:62ch;margin-left:auto;margin-right:auto}
+.lead + .lead{margin-top:20px}
+
+/* 등장 */
+.rv{opacity:0;transform:translateY(2rem);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0) * 80ms)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* 0 · 상단 */
+.top{position:fixed;inset:0 0 auto 0;z-index:20;background:rgba(14,14,14,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(38,38,38,.7)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;text-align:left}
+.brand{font-weight:800;font-size:1.0625rem;letter-spacing:-.02em}
+.brand span{color:var(--lime)}
+.nav{display:flex;gap:22px;font-size:.9375rem;color:var(--sub)}
+.nav a{transition:color .5s var(--ease)}
+.nav a:hover{color:var(--fg)}
+@media(max-width:480px){.nav{gap:14px;font-size:.875rem}}
+
+/* 1 · 히어로 — 줄 사이·덩어리 사이를 넉넉히 */
+.hero{min-height:100dvh;display:grid;align-items:center;padding:128px 0 112px;position:relative;
+  background:radial-gradient(55% 45% at 50% 55%,rgba(169,255,0,.08),transparent 70%)}
+.hero .q{font-size:clamp(1.75rem,5.4vw,3rem);font-weight:700;line-height:1.5;letter-spacing:-.02em}
+.hero .no{margin-top:44px;display:inline-grid;gap:10px;text-align:left;list-style:none;font-size:clamp(1.125rem,3.2vw,1.5rem);color:var(--sub);font-weight:500;line-height:1.5;animation:rise .9s var(--ease) .25s both,fade .6s var(--ease) 1.2s forwards}
+.hero .no li{display:flex;align-items:center;gap:12px}
+.hero .no iconify-icon{font-size:1.25em;color:var(--mute)}
+.hero .no span{position:relative}
+.hero .no span::after{content:"";position:absolute;left:-2px;right:-2px;top:52%;height:2px;background:currentColor;transform:scaleX(0);transform-origin:left;animation:strike .5s var(--ease) 1.2s forwards}
+.hero .no li+li span::after{animation-delay:1.35s}
+@keyframes strike{to{transform:none}}
+@keyframes fade{to{opacity:.4}}
+.hero .nope{margin-top:28px;font-size:clamp(1.25rem,3.6vw,1.75rem);font-weight:700;animation:rise .9s var(--ease) 1.6s both}
+.hero .a{margin-top:44px;font-size:clamp(3rem,12vw,7rem);font-weight:800;line-height:1.2;letter-spacing:-.04em}
+.hero .a em{font-style:normal;color:var(--lime)}
+.hero .a small{display:block;margin-bottom:6px;font-size:clamp(1.125rem,3.4vw,1.5rem);font-weight:600;color:var(--sub);letter-spacing:-.02em}
+.hero .q,.hero .a{animation:rise .9s var(--ease) both}
+.hero .a{animation-delay:2s}
+@keyframes rise{from{opacity:0;transform:translateY(1.5rem)}to{opacity:1;transform:none}}
+.down{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:grid;place-items:center;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);color:var(--mute);animation:bob 2.4s var(--ease) infinite}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* 2 · 아웃라이어 */
+.bridge{font-size:clamp(1.125rem,3vw,1.375rem);color:var(--sub);line-height:1.8}
+.bridge b{color:var(--fg);font-weight:700}
+.big{display:block;font-size:clamp(3.25rem,14vw,6.5rem);line-height:1.05;letter-spacing:-.05em;color:var(--lime)}
+
+/* 높은 조회수 썸네일 띠 — 천천히 옆으로 흐른다 */
+.strip{margin:56px 0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.strip .track{display:flex;gap:12px;width:max-content;animation:flow 60s linear infinite}
+@media(min-width:768px){.strip .track{gap:16px}}
+.strip:hover .track{animation-play-state:paused}
+@keyframes flow{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.strip .track{animation:none}}
+.tcard{flex:none;width:220px}
+@media(min-width:768px){.tcard{width:300px}}
+.tcard img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#1d1d1d}
+@media(min-width:768px){.tcard img{border-radius:16px}}
+.tcard b{display:block;margin-top:10px;text-align:center;font-size:clamp(1.125rem,4vw,1.5rem);font-weight:800;letter-spacing:-.03em}
+.tcard b small{font-size:.7em;font-weight:600;color:var(--mute);margin-left:3px}
+.dots{display:grid;justify-items:center;gap:14px;margin:0 0 72px}
+.dots i{width:5px;height:5px;border-radius:50%;background:#555}
+
+/* 같은 10만 회, 다른 의미 — 흐름도 */
+.flow{margin:56px auto 0;max-width:760px}
+.flow .root{display:inline-block;padding:14px 28px;border-radius:999px;border:1px solid #3a3a3a;background:var(--card);font-size:clamp(1.25rem,4.4vw,1.75rem);font-weight:800;letter-spacing:-.03em}
+.flow .root span{color:var(--mute);font-weight:600;font-size:.7em;margin-right:8px}
+.flow .stem{width:2px;height:32px;margin:0 auto;background:#3a3a3a}
+.flow .branches{display:grid;grid-template-columns:repeat(3,1fr);position:relative}
+.flow .branches::before{content:"";position:absolute;top:0;left:16.66%;right:16.66%;height:2px;background:#3a3a3a}
+.flow .br{display:flex;flex-direction:column;align-items:center;padding:0 4px}
+.flow .br::before{content:"";width:2px;height:28px;background:#3a3a3a}
+.flow .ch{margin-top:0;padding:10px 14px;border-radius:999px;background:var(--fg);color:#0a0a0a;font-weight:800;font-size:clamp(.8125rem,3.2vw,1.125rem);line-height:1.25;white-space:nowrap}
+.flow .ch small{display:block;font-size:.72em;font-weight:600;color:#555}
+.flow .arrow{color:#555;margin:10px 0 6px;font-size:1.25rem}
+.flow .res{font-size:clamp(1rem,4vw,1.5rem);font-weight:800;color:var(--sub)}
+.flow .hot .ch{background:var(--lime)}
+.flow .hot .res{color:var(--lime)}
+.after{margin-top:56px}
+
+.same{margin-top:112px}
+.same h3{font-size:clamp(1.5rem,4vw,2.25rem);font-weight:800;letter-spacing:-.03em;line-height:1.35}
+/* 포스터·랜딩 두 카드를 같은 크기로 */
+.ex{display:grid;gap:10px;margin:36px auto 0;grid-template-columns:1fr 1fr;max-width:640px}
+@media(min-width:768px){.ex{gap:20px}}
+.ex .box{padding:10px 10px 16px;display:flex;flex-direction:column;gap:12px;border-radius:16px}
+@media(min-width:768px){.ex .box{padding:16px 16px 22px;border-radius:var(--r)}}
+.ex .pic{aspect-ratio:4/5;border-radius:8px;overflow:hidden}
+.ex .pic img{display:block;width:100%;height:100%;object-fit:cover}
+.ex .stack{display:grid;grid-template-rows:repeat(3,1fr);gap:6px;background:none}
+.ex .stack img{border-radius:6px;object-position:top left;background:#fff}
+.ex .cap{font-size:clamp(.875rem,3vw,1.0625rem);font-weight:700;line-height:1.4}
+.ex .cap span{display:block;font-weight:400;color:var(--mute);font-size:clamp(.75rem,2.6vw,.9375rem);margin-top:2px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:28px}
+
+/* 3 · 권위 인용 */
+.quote{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.who{display:flex;flex-direction:column;align-items:center;gap:24px}
+.ph{width:120px;height:120px;border-radius:50%;object-fit:cover;flex:none;border:2px solid #2c2c2c}
+@media(min-width:768px){.ph{width:144px;height:144px}}
+.who p{color:var(--sub);font-size:clamp(1.1875rem,3.6vw,1.625rem);line-height:1.6}
+.who b{color:var(--fg)}
+blockquote{margin-top:48px;font-size:clamp(1.375rem,4.6vw,2.5rem);font-weight:700;line-height:1.5;letter-spacing:-.03em}
+blockquote::before{content:"";display:block;width:48px;height:3px;margin:0 auto 32px;background:var(--lime)}
+
+/* 4 · 문제 */
+.split{max-width:860px}
+.rec{position:relative;margin-top:36px;border-radius:var(--r);border:1px solid var(--line);background:var(--card);overflow:hidden}
+.rec .bar3{display:flex;gap:6px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.rec .bar3 i{width:10px;height:10px;border-radius:50%;background:#333}
+.rec video{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.rec .ov{position:absolute;inset:0;display:grid;place-items:center;padding:20px;background:rgba(10,10,10,.62)}
+.rec .ov .lead{margin:0;color:#fff;font-size:clamp(1.25rem,4.6vw,2rem);font-weight:700;line-height:1.6}
+.split h2{margin-top:72px;font-size:clamp(2.25rem,8.5vw,4.75rem);line-height:1.25;color:var(--lime)}
+.num{display:grid;place-items:center;width:32px;height:32px;margin:0 auto 12px;border-radius:50%;border:1px solid var(--lime);color:var(--lime);font-weight:800;font-size:.9375rem}
+.split .lead{margin-top:40px}
+
+
+/* 5 · 만든 사람 */
+.maker h2{font-size:clamp(1.5rem,5.6vw,3.25rem)}
+.who2{margin-top:16px;font-size:.9375rem;color:var(--mute)}
+.olabel{margin-top:56px;font-size:.9375rem;font-weight:700;color:var(--sub)}
+.count{display:flex;justify-content:center;align-items:flex-end;gap:10px;flex-wrap:wrap;margin-top:6px}
+.odo{display:flex;font-size:clamp(3.5rem,14vw,8rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--lime);font-variant-numeric:tabular-nums}
+.odo .d{height:1em;overflow:hidden;display:inline-block}
+.odo .d span{display:flex;flex-direction:column;transition:transform 1.6s var(--ease)}
+.odo .d span b{height:1em;font-weight:800}
+.odo .c{display:inline-block}
+.count .u{font-size:clamp(1.25rem,3.4vw,1.75rem);font-weight:700;padding-bottom:.4em}
+
+/* 6 · 자료 + 신청 */
+.get{background:var(--bg2);border-top:1px solid var(--line)}
+.product{max-width:640px}
+.ptitle{font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.2}
+.ptitle small{display:block;margin-top:8px;font-size:.45em;font-weight:500;color:var(--sub);letter-spacing:-.01em}
+.inhead{margin-top:64px;font-size:.875rem;font-weight:700;color:var(--mute)}
+.inside{margin-top:16px;display:inline-grid;gap:14px;text-align:left}
+.inside li{list-style:none;display:flex;gap:12px;align-items:flex-start;color:var(--sub);font-size:clamp(1rem,2.6vw,1.125rem);line-height:1.6}
+.inside iconify-icon{color:var(--lime);font-size:1.25rem;flex:none;margin-top:3px}
+.cover{aspect-ratio:3/4;max-width:340px;width:100%;margin:0 auto;border-radius:18px;background:linear-gradient(160deg,#1b1b1b,#101010);border:1px solid #2c2c2c;padding:32px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 30px 80px rgba(0,0,0,.5);transform:rotate(-3deg);text-align:left}
+.cover .m{font-size:.8125rem;color:var(--mute)}
+.cover .n{font-size:2.5rem;font-weight:800;line-height:1.1;letter-spacing:-.04em}
+.cover .n em{font-style:normal;color:var(--lime)}
+.cover .n small{display:block;margin-top:8px;font-size:.875rem;font-weight:500;color:var(--sub);letter-spacing:-.01em}
+.cover .f{display:flex;justify-content:space-between;font-size:.8125rem;color:var(--sub);border-top:1px solid #2c2c2c;padding-top:14px}
+.thumbs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.thumbs img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:#262626}
+.thumbs img:first-child{grid-column:span 2}
+.offer{margin-top:64px;font-size:clamp(1.25rem,3.8vw,1.75rem);font-weight:700;line-height:1.5;letter-spacing:-.02em}
+.offer b{color:var(--lime)}
+
+.form{margin-top:32px;text-align:left;display:grid;gap:22px}
+.form label.t{display:block;font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:10px}
+.form input[type=email]{width:100%;min-height:56px;padding:0 20px;border-radius:14px;border:1px solid #333;background:var(--card);color:var(--fg);font:inherit;font-size:1.0625rem;transition:border-color .5s var(--ease)}
+.form input[type=email]:focus{outline:none;border-color:var(--lime)}
+.form input[type=email]::placeholder{color:#6a6a6a}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{position:relative}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #333;background:var(--card);color:var(--sub);font-size:.9375rem;cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease),border-color .5s var(--ease)}
+.chips input:checked + span{background:var(--fg);color:#0a0a0a;border-color:var(--fg);font-weight:700}
+.chips input:focus-visible + span{outline:2px solid var(--lime);outline-offset:2px}
+.agree{display:grid;gap:10px;font-size:.9375rem;color:var(--sub)}
+.agree label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;line-height:1.5}
+.agree input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--lime)}
+.agree b{color:var(--fg)}
+.agree details{margin-left:30px;font-size:.8125rem;color:var(--mute)}
+.agree summary{cursor:pointer;width:max-content}
+.agree details p{margin-top:6px;line-height:1.6}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;padding:0 28px;border:0;border-radius:999px;background:var(--lime);color:#0a0a0a;font:inherit;font-weight:800;font-size:1.0625rem;cursor:pointer;transition:transform .5s var(--ease)}
+.btn:hover{transform:scale(1.02)}
+.btn:active{transform:scale(.98)}
+.btn iconify-icon{transition:transform .5s var(--ease)}
+.btn:hover iconify-icon{transform:translateX(4px)}
+.note{font-size:.8125rem;color:var(--mute);text-align:center}
+
+/* 신청 뒤 */
+.done{display:none;margin-top:32px;border:1px solid var(--line);border-radius:var(--r);padding:32px 24px;background:var(--card)}
+.done.on{display:block}
+.done h3{font-size:clamp(1.375rem,4vw,1.75rem);font-weight:800;letter-spacing:-.02em}
+.done p{margin-top:12px;color:var(--sub);line-height:1.7}
+.done a{display:inline-flex;align-items:center;gap:8px;margin-top:20px;min-height:48px;font-weight:800;color:var(--lime)}
+footer{border-top:1px solid var(--line);padding:28px 0;font-size:.8125rem;line-height:1.8;color:#6a6a6a}
+footer a{color:inherit;text-decoration:underline}
+</style>
+</head>
+<body>
+
+<!-- 0 · 상단 -->
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#">FLOWADS<span>.</span></a>
+    <nav class="nav">
+      <a href="#get">월간 아웃라이어</a>
+    </nav>
+  </div>
+</header>
+
+<!-- 1 · 히어로 -->
+<section class="hero">
+  <div class="wrap">
+    <p class="q">유튜브에서<br>조회수를 결정짓는 것은<br>무엇일까요?</p>
+    <ul class="no">
+      <li><iconify-icon icon="solar:camera-linear"></iconify-icon><span>값비싼 장비?</span></li>
+      <li><iconify-icon icon="solar:clapperboard-edit-linear"></iconify-icon><span>화려한 편집 실력?</span></li>
+    </ul>
+    <p class="nope">아닙니다.</p>
+    <p class="a"><small>조회수에 가장 큰 영향을 주는 건</small>바로<br><em>썸네일</em>입니다.</p>
+  </div>
+  <a class="down" href="#outlier" aria-label="아래로"><iconify-icon icon="solar:alt-arrow-down-linear" width="22"></iconify-icon></a>
+</section>
+
+<!-- 2 · 아웃라이어 -->
+<section id="outlier">
+  <div class="wrap">
+    <p class="bridge rv">높은 조회수를 기록한<br>이 영상들의 특징,<br><b>알고 있으신가요?</b></p>
+  </div>
+
+  <!-- 조회수는 261023 수집 시점 값. 구독자 10만 이하 채널에서 고름(_100선_후보_261023.json) -->
+  <div class="strip rv" aria-label="평소보다 높은 조회수를 기록한 영상 썸네일">
+    <div class="track" id="track">
+      <div class="tcard"><img src="assets/strip/A4h3S0NmBFM.jpg" alt="" loading="lazy" decoding="async"><b>220만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/EwQzLTlokWI.jpg" alt="" loading="lazy" decoding="async"><b>173만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/g1F5cbTp-VU.jpg" alt="" loading="lazy" decoding="async"><b>152만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/B0a5ak9dxaU.jpg" alt="" loading="lazy" decoding="async"><b>118만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/Yo3lKRSaCks.jpg" alt="" loading="lazy" decoding="async"><b>91만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/6cF2pE19_oA.jpg" alt="" loading="lazy" decoding="async"><b>91만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/-23OzkNAAts.jpg" alt="" loading="lazy" decoding="async"><b>76만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/CGnYynV5PUo.jpg" alt="" loading="lazy" decoding="async"><b>67만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/FKcQ3s5udK4.jpg" alt="" loading="lazy" decoding="async"><b>67만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/TGbBffTwBoY.jpg" alt="" loading="lazy" decoding="async"><b>62만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/c4ElCUnMA8E.jpg" alt="" loading="lazy" decoding="async"><b>53만<small>회</small></b></div>
+      <div class="tcard"><img src="assets/strip/vUU4ddSPQ04.jpg" alt="" loading="lazy" decoding="async"><b>52만<small>회</small></b></div>
+    </div>
+  </div>
+  <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <div class="wrap">
+    <h2 class="rv"><span class="big">아웃라이어,</span>들어보셨나요?</h2>
+    <p class="lead rv" style="margin-top:28px">채널이 평소 기록하던 조회수보다<br>유난히 높은 조회수를 기록한 영상을<br>아웃라이어라고 부릅니다.</p>
+
+    <div class="flow rv">
+      <div class="root"><span>조회수</span> 10만 회</div>
+      <div class="stem"></div>
+      <div class="branches">
+        <div class="br"><div class="ch"><small>구독자</small>100만 채널</div><div class="arrow"><iconify-icon icon="solar:arrow-down-linear"></iconify-icon></div><div class="res">평범</div></div>
+        <div class="br"><div class="ch"><small>구독자</small>1만 채널</div><div class="arrow"><iconify-icon icon="solar:arrow-down-linear"></iconify-icon></div><div class="res">눈에 띔</div></div>
+        <div class="br hot"><div class="ch"><small>구독자</small>1천 채널</div><div class="arrow"><iconify-icon icon="solar:arrow-down-linear"></iconify-icon></div><div class="res">아웃라이어</div></div>
+      </div>
+    </div>
+
+    <p class="lead after rv">같은 10만 회라도<br>채널에 따라 의미가 완전히 다릅니다.</p>
+    <p class="lead rv">평소엔 오지 않던 사람까지<br>끌어들였다면, 그 영상에는<br>분명 사람들을 끌어당긴 이유가 있습니다.</p>
+    <p class="lead rv">그 이유를 찾아<br>내 영상에 가져오는 것.<br><b style="color:var(--fg)">이게 아웃라이어 벤치마킹입니다.</b></p>
+
+    <div class="same">
+      <h3 class="rv"><span style="color:var(--mute)">낯설게 들리지만,</span><br>다른 업계에선<br>이미 당연한 일입니다.</h3>
+      <div class="ex">
+        <div class="box rv" style="--i:0">
+          <div class="pic"><img src="assets/posters_back.jpg" alt="등 돌린 인물 구도의 영화 포스터 모음" loading="lazy" decoding="async"></div>
+          <div class="cap">영화 포스터<span>같은 구도가<br>반복됩니다</span></div>
+        </div>
+        <div class="box rv" style="--i:1">
+          <div class="pic stack">
+            <img src="assets/land_1.jpg" alt="왼쪽 제목, 오른쪽 그림 구성의 랜딩 페이지" loading="lazy" decoding="async">
+            <img src="assets/land_2.jpg" alt="" loading="lazy" decoding="async">
+            <img src="assets/land_3.jpg" alt="" loading="lazy" decoding="async">
+          </div>
+          <div class="cap">랜딩 페이지<span>왼쪽엔 제목,<br>오른쪽엔 그림</span></div>
+        </div>
+      </div>
+      <p class="lead rv" style="margin-top:48px"><b style="color:var(--fg)">효과가 증명된 형식은 반복됩니다.</b><br>유튜브도 마찬가지입니다.</p>
+    </div>
+
+    <!-- 권위 인용 — 출처: Aprilynne Alter 영상(6YiBI17oICI) 1:50 지점에 「JAY ALTO」 이름표로 등장(261023 확인) -->
+    <div class="who rv" style="margin-top:56px">
+      <img class="ph" src="assets/jay_alto.jpg" alt="제이 알토" loading="lazy" decoding="async">
+      <p>세계 1위 유튜버<br>미스터비스트의<br>유튜브 컨설턴트로 알려진<br><b>제이 알토</b>는 이렇게 말합니다.</p>
+    </div>
+    <blockquote class="rv">작은 채널의 영상이<br>유난히 높은 조회수를 기록했다면,<br>거기엔 분명 통한 무언가가 있습니다.<br>그게 바로 참고할 지점입니다.</blockquote>
+    <p class="lead rv" style="margin-top:48px">세계에서 가장 큰 채널을 만드는 사람들도,<br>영상을 기획할 때 아웃라이어부터 찾습니다.</p>
+  </div>
+</section>
+
+<!-- 4 · 문제 -->
+<section>
+  <div class="wrap split">
+    <div class="rec rv" style="margin-top:0">
+      <div class="bar3"><i></i><i></i><i></i></div>
+      <video src="assets/finder_outlier_261023.mp4" autoplay muted loop playsinline preload="metadata" aria-label="분석 도구로 아웃라이어 영상을 찾는 화면"></video>
+      <div class="ov"><p class="lead">그래서 요즘 많은 분들이<br>분석 도구로<br>아웃라이어 영상을 찾아봅니다.</p></div>
+    </div>
+    <h2 class="rv">그런데 막히는 건<br>그다음입니다.</h2>
+    <div>
+      <p class="lead rv"><span class="num">1</span>찾은 영상을 내 영상에<br>어떻게 써야 할지 모릅니다.</p>
+      <p class="lead rv"><span class="num">2</span>통째로 따라 하면 베끼기가 되고,<br>겉모양만 따라 하면<br>효과가 사라집니다.</p>
+      <p class="lead rv"><span class="num">3</span>구도였는지, 문구였는지,<br>색이었는지.<br><b style="color:var(--fg)">무엇이 통했는지 알아야<br>내 영상에 쓸 수 있습니다.</b></p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · 만든 사람 -->
+<section class="maker" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <h2 class="rv">마케팅 기획 11년,<br>콘텐츠 마케팅 에이전시를<br>7년째 운영하는 대표가<br><span class="lime">직접 분석했습니다.</span></h2>
+    <p class="olabel rv">매달 분석하는 영상</p>
+    <div class="count rv">
+      <div class="u">약</div>
+      <div class="odo" id="odo" data-n="10,000" aria-label="약 10,000"></div>
+      <div class="u">개</div>
+    </div>
+    <p class="lead rv" style="margin-top:24px">그중 평소보다 높은 조회수를 기록한 영상만 골라,<br>무엇이 통했는지 패턴별로 정리했습니다.</p>
+    <a class="btn rv" href="#sub" style="margin-top:36px">무료로 받아보기 <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon></a>
+  </div>
+</section>
+
+<!-- 6 · 자료 소개 + 신청 -->
+<section class="get" id="get">
+  <div class="wrap product">
+    <div class="cover rv" aria-hidden="true">
+      <div class="m">FLOWADS<span class="lime">.</span> · 2026년 11월판</div>
+      <div>
+        <div class="n">월간<br><em>아웃라이어</em><small>(조회수를 높이는 썸네일)</small></div>
+        <div class="thumbs" style="margin-top:22px"><img src="assets/strip/YlgwgQSjR8o.jpg" alt=""><img src="assets/strip/A4h3S0NmBFM.jpg" alt=""><img src="assets/strip/dI2_EuwCzc4.jpg" alt=""></div>
+      </div>
+      <div class="f"><span>매달 약 1만 개 분석</span><span>무료</span></div>
+    </div>
+    <p class="inhead rv">이 자료에 들어 있는 것</p>
+    <ul class="inside">
+      <li class="rv" style="--i:0"><iconify-icon icon="solar:check-circle-linear"></iconify-icon><span>조회수가 높게 나온 썸네일 모음</span></li>
+      <li class="rv" style="--i:1"><iconify-icon icon="solar:check-circle-linear"></iconify-icon><span>이 썸네일이 높은 조회수를 기록한<br>구조 해석까지</span></li>
+      <li class="rv" style="--i:2"><iconify-icon icon="solar:check-circle-linear"></iconify-icon><span>내 영상에 바로 쓰는<br>적용 예시까지</span></li>
+    </ul>
+
+    <p class="offer rv">지금 신청하시면<br>이런 자료를 <b>매달 무료로</b><br>받아보실 수 있습니다.</p>
+
+    <!-- 브레보 구독폼(「월간 아웃라이어 홈 신청」, 목록 #2)으로 보낸다. 필드 이름 EMAIL·STAGE는 브레보 속성 ID -->
+    <form class="form rv" id="sub" novalidate action="https://45655347.sibforms.com/serve/MUIFAI3IZIPxlxoC2nfKLUiwlV0YWxKvukLcuIrHos272igGGaWfpPqbxdKUdaKPge4P3izUm9MT_lPX9mFGxggp2yZMNSCvh6E4oSRag0YCyv98AlpMi4B9GAJETjiOZDvbUdA-h1rFB6FLeh9ylqP_K6KThodslWJIwrxFk2pv6FmQjy2DmczkyzRruABXydN305o8OY7GHYulIA==">
+      <input type="text" name="email_address_check" value="" hidden tabindex="-1" autocomplete="off">
+      <input type="hidden" name="locale" value="ko">
+      <div>
+        <label class="t" for="em">이메일 <span style="font-weight:400;color:var(--mute)">(모든 자료는 메일로 보내드립니다.)</span></label>
+        <input type="email" id="em" name="EMAIL" placeholder="name@example.com" autocomplete="email" required>
+      </div>
+      <fieldset style="border:0">
+        <legend class="t" style="font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:10px">지금 어느 단계인가요?</legend>
+        <div class="chips">
+          <label><input type="radio" name="STAGE" value="1"><span>이제 시작해 보려는 단계입니다</span></label>
+          <label><input type="radio" name="STAGE" value="2"><span>채널을 개설했고 영상을 올리고 있습니다</span></label>
+          <label><input type="radio" name="STAGE" value="3"><span>꾸준히 올리고 있지만 조회수가 늘지 않습니다</span></label>
+          <label><input type="radio" name="STAGE" value="4"><span>사업·브랜드 홍보에 유튜브를 쓰고 있습니다</span></label>
+          <label><input type="radio" name="STAGE" value="5"><span>혼자 운영하기엔 시간이 부족합니다</span></label>
+        </div>
+      </fieldset>
+      <div class="agree">
+        <label><input type="checkbox" name="privacy" required><span><b>[필수]</b> 개인정보 수집·이용에 동의합니다.</span></label>
+        <details><summary>자세히 보기</summary><p>수집 항목: 이메일, 운영 단계<br>이용 목적: 자료·뉴스레터 발송<br>보유 기간: 구독 해지 시까지<br>발송 위탁: Brevo(프랑스) · <a href="privacy-newsletter.html" target="_blank" rel="noopener">개인정보처리방침</a></p></details>
+        <label><input type="checkbox" name="ad" required><span><b>[필수]</b> 플로우애즈에서 보내는 광고성 정보 수신에 동의합니다.</span></label>
+      </div>
+      <button class="btn" type="submit">무료로 받아보기 <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon></button>
+      <p class="note">입력하신 메일로 이번 달 자료를 바로 보내드립니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
+    </form>
+
+    <div class="done" id="done" role="status" aria-live="polite">
+      <h3>신청이 완료됐습니다.</h3>
+      <p>이번 달 월간 아웃라이어를 메일로 보내드렸습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
+      <p><b style="color:var(--fg)">사업을 운영하고 계신다면,</b><br>사업자를 위한 칼럼도 함께 읽어 보세요.</p>
+      <a href="column/">프리미엄 칼럼 읽기 <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon></a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  플로우애즈 · 대표 이민재 · 사업자등록번호 211-11-20640<br>
+  경기도 하남시 미사강변서로 22, 9층 906호(풍산동, 에코큐브 지식산업센터)<br>
+  문의 <a href="mailto:flowads.official@gmail.com">flowads.official@gmail.com</a> · <a href="privacy-newsletter.html">개인정보처리방침</a><br>
+  ⓒ 2026 FLOWADS. All rights reserved.
+</div></footer>
+
+<script>
+// 썸네일 띠: 같은 줄을 한 번 더 붙여 끊김 없이 돈다
+const track = document.getElementById('track');
+track.innerHTML += track.innerHTML.replace(/alt="[^"]*"/g, 'alt="" aria-hidden="true"');
+
+// 숫자 굴러 올라가기: 자리마다 0~9 기둥을 만들고 화면에 들어오면 한 번 굴린다
+const odo = document.getElementById('odo');
+const digits = [];
+for (const ch of odo.dataset.n) {
+  if (/\d/.test(ch)) {
+    const d = document.createElement('span'); d.className = 'd';
+    const col = document.createElement('span');
+    for (let k = 0; k < 10; k++) { const b = document.createElement('b'); b.textContent = k; col.appendChild(b); }
+    col.style.transitionDelay = (digits.length * 90) + 'ms';
+    d.appendChild(col); odo.appendChild(d); digits.push([col, +ch]);
+  } else {
+    const c = document.createElement('span'); c.className = 'c'; c.textContent = ch; odo.appendChild(c);
+  }
+}
+
+const io = new IntersectionObserver((es) => {
+  for (const e of es) {
+    if (!e.isIntersecting) continue;
+    e.target.classList.add('in');
+    if (e.target.contains(odo)) for (const [col, n] of digits) col.style.transform = `translateY(-${n}em)`;
+    io.unobserve(e.target);
+  }
+}, { threshold: 0.2 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// 신청: 브라우저 기본 검사로 빈칸·필수 동의를 막고, 통과하면 안내로 바꾼다
+const form = document.getElementById('sub');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!form.reportValidity()) return;
+  const btn = form.querySelector('button[type=submit]');
+  btn.disabled = true;
+  try {
+    // 브레보는 다른 주소에서 온 요청에 응답을 읽게 해 주지 않는다: 보내기만 하고 네트워크 오류만 잡는다
+    await fetch(form.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(form)) });
+    form.style.display = 'none';
+    document.getElementById('done').classList.add('on');
+  } catch {
+    btn.disabled = false;
+    alert('신청이 전송되지 않았습니다. 잠시 뒤 다시 시도해 주세요.');
+  }
+});
+</script>
+</body>
+</html>
+
+
+    <div class="done" id="done" role="status" aria-live="polite">
+      <h3>신청이 완료됐습니다.</h3>
+      <p>이번 달 월간 아웃라이어를 메일로 보내드렸습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
+      <p><b style="color:var(--fg)">사업을 운영하고 계신다면,</b><br>사업자를 위한 칼럼도 함께 읽어 보세요.</p>
+      <a href="column/">프리미엄 칼럼 읽기 <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon></a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  플로우애즈 · 대표 이민재 · 사업자등록번호 211-11-20640<br>
+  경기도 하남시 미사강변서로 22, 9층 906호(풍산동, 에코큐브 지식산업센터)<br>
+  문의 <a href="mailto:flowads.official@gmail.com">flowads.official@gmail.com</a> · <a href="privacy-newsletter.html">개인정보처리방침</a><br>
+  ⓒ 2026 FLOWADS. All rights reserved.
+</div></footer>
+
+<script>
+// 썸네일 띠: 같은 줄을 한 번 더 붙여 끊김 없이 돈다
+const track = document.getElementById('track');
+track.innerHTML += track.innerHTML.replace(/alt="[^"]*"/g, 'alt="" aria-hidden="true"');
+
+// 숫자 굴러 올라가기: 자리마다 0~9 기둥을 만들고 화면에 들어오면 한 번 굴린다
+const odo = document.getElementById('odo');
+const digits = [];
+for (const ch of odo.dataset.n) {
+  if (/\d/.test(ch)) {
+    const d = document.createElement('span'); d.className = 'd';
+    const col = document.createElement('span');
+    for (let k = 0; k < 10; k++) { const b = document.createElement('b'); b.textContent = k; col.appendChild(b); }
+    col.style.transitionDelay = (digits.length * 90) + 'ms';
+    d.appendChild(col); odo.appendChild(d); digits.push([col, +ch]);
+  } else {
+    const c = document.createElement('span'); c.className = 'c'; c.textContent = ch; odo.appendChild(c);
+  }
+}
+
+const io = new IntersectionObserver((es) => {
+  for (const e of es) {
+    if (!e.isIntersecting) continue;
+    e.target.classList.add('in');
+    if (e.target.contains(odo)) for (const [col, n] of digits) col.style.transform = `translateY(-${n}em)`;
+    io.unobserve(e.target);
+  }
+}, { threshold: 0.2 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// 신청: 브라우저 기본 검사로 빈칸·필수 동의를 막고, 통과하면 안내로 바꾼다
+const form = document.getElementById('sub');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!form.reportValidity()) return;
+  const btn = form.querySelector('button[type=submit]');
+  btn.disabled = true;
+  try {
+    // 브레보는 다른 주소에서 온 요청에 응답을 읽게 해 주지 않는다: 보내기만 하고 네트워크 오류만 잡는다
+    await fetch(form.action, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(new FormData(form)) });
+    form.style.display = 'none';
+    document.getElementById('done').classList.add('on');
+  } catch {
+    btn.disabled = false;
+    alert('신청이 전송되지 않았습니다. 잠시 뒤 다시 시도해 주세요.');
+  }
+});
+</script>
+</body>
+</html>
