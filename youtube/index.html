@@ -209,6 +209,10 @@ blockquote::before{content:"";display:block;width:48px;height:3px;margin:0 auto 
 .done h3{font-size:clamp(1.375rem,4vw,1.75rem);font-weight:800;letter-spacing:-.02em}
 .done p{margin-top:12px;color:var(--sub);line-height:1.7}
 .done a{display:inline-flex;align-items:center;gap:8px;margin-top:20px;min-height:48px;font-weight:800;color:var(--lime)}
+.colbox{margin-top:28px;padding:28px 20px 24px;border:2px solid var(--lime);border-radius:20px;background:rgba(169,255,0,.07);box-shadow:0 0 40px rgba(169,255,0,.12);text-align:center}
+.colbox .tag{display:inline-block;padding:5px 14px;border-radius:999px;background:var(--lime);color:#0a0a0a;font-weight:800;font-size:.875rem}
+.colbox h4{margin-top:16px;font-size:clamp(1.25rem,4vw,1.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.45;word-break:keep-all}
+.done .colbox a.btn{margin-top:22px;min-height:58px;gap:10px;color:#0a0a0a}
 footer{border-top:1px solid var(--line);padding:28px 0;font-size:.8125rem;line-height:1.8;color:#6a6a6a}
 footer a{color:inherit;text-decoration:underline}
 </style>
@@ -393,8 +397,11 @@ footer a{color:inherit;text-decoration:underline}
     <div class="done" id="done" role="status" aria-live="polite">
       <h3>신청이 완료됐습니다.</h3>
       <p>이번 달 월간 아웃라이어를 메일로 보내드렸습니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
-      <p><b style="color:var(--fg)">사업을 운영하고 계신다면,</b><br>사업자를 위한 칼럼도 함께 읽어 보세요.</p>
-      <a href="column/">프리미엄 칼럼 읽기 <iconify-icon icon="solar:arrow-right-linear" width="18"></iconify-icon></a>
+      <div class="colbox">
+        <span class="tag">사업자 전용</span>
+        <h4>사업을 운영하고 계신다면,<br><span class="lime">프리미엄 칼럼</span>도 꼭 읽어 보세요.</h4>
+        <a class="btn" href="column/?src=done">프리미엄 칼럼 읽기 <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon></a>
+      </div>
     </div>
   </div>
 </section>
