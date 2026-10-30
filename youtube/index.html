@@ -178,24 +178,26 @@ blockquote::before{content:"";display:block;width:48px;height:3px;margin:0 auto 
 .offer{margin-top:64px;font-size:clamp(1.25rem,3.8vw,1.75rem);font-weight:700;line-height:1.5;letter-spacing:-.02em}
 .offer b{color:var(--lime)}
 
-.form{margin-top:32px;text-align:left;display:grid;gap:22px}
-.form label.t{display:block;font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:10px}
+.form{margin-top:32px;text-align:left;display:grid;gap:40px}
+.form label.t{display:block;font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:14px}
 .form input[type=email]{width:100%;min-height:56px;padding:0 20px;border-radius:14px;border:1px solid #333;background:var(--card);color:var(--fg);font:inherit;font-size:1.0625rem;transition:border-color .5s var(--ease)}
 .form input[type=email]:focus{outline:none;border-color:var(--lime)}
 .form input[type=email]::placeholder{color:#6a6a6a}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips{display:flex;flex-direction:column;gap:12px}
 .chips label{position:relative}
 .chips input{position:absolute;opacity:0;pointer-events:none}
-.chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;border:1px solid #333;background:var(--card);color:var(--sub);font-size:.9375rem;cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease),border-color .5s var(--ease)}
+.chips span{display:flex;align-items:center;width:100%;min-height:48px;padding:0 16px;border-radius:999px;border:1px solid #333;background:var(--card);color:var(--sub);font-size:.9375rem;cursor:pointer;transition:background .5s var(--ease),color .5s var(--ease),border-color .5s var(--ease)}
 .chips input:checked + span{background:var(--fg);color:#0a0a0a;border-color:var(--fg);font-weight:700}
 .chips input:focus-visible + span{outline:2px solid var(--lime);outline-offset:2px}
-.agree{display:grid;gap:10px;font-size:.9375rem;color:var(--sub)}
+.agree{display:grid;gap:20px;font-size:.9375rem;color:var(--sub)}
 .agree label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;line-height:1.5}
 .agree input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--lime)}
 .agree b{color:var(--fg)}
 .agree details{margin-left:30px;font-size:.8125rem;color:var(--mute)}
 .agree summary{cursor:pointer;width:max-content}
 .agree details p{margin-top:6px;line-height:1.6}
+.yt{display:flex;align-items:center;gap:14px;min-height:64px;padding:0 20px;border-radius:14px;border:1px solid var(--lime);background:var(--card);color:var(--fg);font-size:1.125rem;font-weight:700;letter-spacing:-.02em;cursor:pointer}
+.yt input{width:24px;height:24px;flex:none;accent-color:var(--lime)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;padding:0 28px;border:0;border-radius:999px;background:var(--lime);color:#0a0a0a;font:inherit;font-weight:800;font-size:1.0625rem;cursor:pointer;transition:transform .5s var(--ease)}
 .btn:hover{transform:scale(1.02)}
 .btn:active{transform:scale(.98)}
@@ -376,7 +378,7 @@ footer a{color:inherit;text-decoration:underline}
         <input type="email" id="em" name="EMAIL" placeholder="name@example.com" autocomplete="email" required>
       </div>
       <fieldset style="border:0">
-        <legend class="t" style="font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:10px">지금 어느 단계인가요?</legend>
+        <legend class="t" style="font-size:.9375rem;font-weight:700;color:var(--sub);margin-bottom:14px">지금 어느 단계인가요?</legend>
         <div class="chips">
           <label><input type="radio" name="STAGE" value="1"><span>이제 시작해 보려는 단계입니다</span></label>
           <label><input type="radio" name="STAGE" value="2"><span>채널을 개설했고 영상을 올리고 있습니다</span></label>
@@ -390,7 +392,8 @@ footer a{color:inherit;text-decoration:underline}
         <details><summary>자세히 보기</summary><p>수집 항목: 이메일, 운영 단계<br>이용 목적: 자료·뉴스레터 발송<br>보유 기간: 구독 해지 시까지<br>발송 위탁: Brevo(프랑스) · <a href="privacy-newsletter.html" target="_blank" rel="noopener">개인정보처리방침</a></p></details>
         <label><input type="checkbox" name="ad" required><span><b>[필수]</b> 플로우애즈에서 보내는 광고성 정보 수신에 동의합니다.</span></label>
       </div>
-      <button class="btn" type="submit">무료로 받아보기 <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon></button>
+      <label class="yt"><input type="checkbox" name="yt" required><span>구독과 좋아요, 눌러 주셨나요?</span></label>
+      <button class="btn" type="submit">월간 아웃라이어 신청하기 <iconify-icon icon="solar:arrow-right-linear" width="22"></iconify-icon></button>
       <p class="note">입력하신 메일로 이번 달 자료를 바로 보내드립니다.<br>메일이 보이지 않으면 스팸함을 확인해 주세요.</p>
     </form>
 
