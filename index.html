@@ -777,6 +777,9 @@ fieldset.field{border:0;padding:0;margin:0}
 </style>
 
 <link rel="canonical" href="https://flowads.co.kr/">
+<!-- GA4 (플로우애즈 사이트, 261110) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K03NX5Q0MW"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-K03NX5Q0MW');</script>
 </head>
 <body>
 <noscript><img height="1" width="1" style="display:none"
@@ -1555,6 +1558,7 @@ src="https://www.facebook.com/tr?id=3961493720822898&ev=PageView&noscript=1" alt
           try{ tracked = sessionStorage.getItem(leadKey) === '1'; }catch(error){}
           if(!tracked){
             fbq('track', 'Lead');
+            if(window.gtag){ gtag('event', 'generate_lead', {lead_source: 'hospital_report'}); }
             try{ sessionStorage.setItem(leadKey, '1'); }catch(error){}
           }
         }
