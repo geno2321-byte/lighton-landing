@@ -449,6 +449,14 @@ const io = new IntersectionObserver((es) => {
 }, { threshold: 0.2 });
 document.querySelectorAll('.rv').forEach(el => io.observe(el));
 
+// 월간 아웃라이어 표지: 한국시간 12/1 0시부터 12월판 (261126)
+if (Date.now() >= Date.parse('2026-12-01T00:00:00+09:00')) {
+  const m = document.querySelector('.cover .m');
+  m.innerHTML = m.innerHTML.replace('11월판', '12월판');
+  const ids = ['W9ZKsZiFvuU', 'eT31Ow_ROYk', 'RDUyg0NCcsY'];
+  document.querySelectorAll('.cover .thumbs img').forEach((img, i) => img.src = 'assets/strip/' + ids[i] + '.jpg');
+}
+
 // 신청: 브라우저 기본 검사로 빈칸·필수 동의를 막고, 통과하면 안내로 바꾼다
 const form = document.getElementById('sub');
 form.addEventListener('submit', async (e) => {

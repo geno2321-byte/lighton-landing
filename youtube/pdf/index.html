@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>월간 아웃라이어 받기</title>
+<script>
+// 브레보 신청 메일의 링크가 여기로 온다. 새 판은 맨 위에 [공개일(한국시간), 파일] 한 줄 추가.
+var EDITIONS = [
+  ['2026-12-01', '2612'],
+  ['2026-10-01', '2611']
+];
+var e = EDITIONS.find(function (x) { return Date.now() >= Date.parse(x[0] + 'T00:00:00+09:00'); }) || EDITIONS[EDITIONS.length - 1];
+location.replace('/youtube/monthly-outlier-' + e[1] + '.pdf');
+</script>
+</head><body><p><a href="/youtube/monthly-outlier-2611.pdf">월간 아웃라이어 열기</a></p></body></html>
